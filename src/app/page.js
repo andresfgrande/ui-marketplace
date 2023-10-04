@@ -5,20 +5,7 @@ import styles from './page.module.css'
 import Layout from './components/Layout';
 import Profile from './components/Profile';  
 
-/*
-import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet],
-  [publicProvider()],
-)
-
-const config = createConfig({
-  autoConnect: true,
-  publicClient,
-  webSocketPublicClient,
-})*/
 
 
 export default function Home() {

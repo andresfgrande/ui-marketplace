@@ -47,6 +47,15 @@
     gap: 20px;
    
 }
+@media (min-width: 768px) {
+
+    .product-list {
+       
+        grid-template-columns: repeat(auto-fill, minmax(225px, 1fr)); /* Updated line */
+      
+       
+    }
+}
 
 @media (max-width: 420px) {
     .product-list {
@@ -125,4 +134,9 @@ h3{
 
 .title-transfer{
     margin-top: 35px;
+}
+.main-title{
+    text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
 }

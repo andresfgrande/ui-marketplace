@@ -12,12 +12,15 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet"></link>
       </head>
-      <body className="body">{children}</body>
+      <body className="body">
+        {children}
+      </body>
     </html>
   )
 }

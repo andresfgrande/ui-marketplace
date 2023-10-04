@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "viem": "^1.15.1",
+    "wagmi": "^1.4.3"
   },
   "devDependencies": {
     "eslint": "latest",

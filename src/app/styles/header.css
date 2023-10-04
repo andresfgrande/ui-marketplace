@@ -1,0 +1,64 @@
+body, h1, h2, p, a, ul, li {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background-color: #232931;
+    color: #b1b1b1;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-content{
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: sticky;  /* or position: fixed; */
+    top: 0;
+    background-color: #2e2e2e; /* Adding a background-color */
+    z-index: 1000;  /* Optional: to ensure header stays on top of other elements */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #EEEBD3;
+}
+
+nav a {
+    margin: 0 15px;
+    color: #9a9a9a;
+    transition: color 0.3s, background-color 0.3s; /* Adding transition for background-color as well */
+    border-radius: 12px; /* Adding border-radius for rounded corners */
+    padding: 10px 20px; /* Adding padding */
+    display: inline-block; /* Make a and span inline-block to apply padding and border-radius */
+}
+
+nav a:hover {
+    color: #EEEBD3;
+    background-color: #404040;  /* Adding a background-color on hover */
+}
+
+.span {
+    display: inline-block; /* Make span inline-block to apply padding and border-radius */
+}

@@ -1,0 +1,128 @@
+.main-container{
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.balance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.balance-info h2, .activity h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.amount {
+    font-size: 60px;
+    color: #EEEBD3;
+}
+    @media (max-width: 420px) {
+        .amount {
+            font-size: 45px; 
+            
+        }
+    }
+
+.punk-avatar img {
+    max-width: 150px;
+    border: 3px solid #EEEBD3;
+    border-radius: 50%;
+}
+
+.products h2, .transfer-form h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #EEEBD3;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); /* Updated line */
+    gap: 20px;
+   
+}
+
+@media (max-width: 420px) {
+    .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(125px, 2fr)); /* Updated line */
+        gap: 15px;
+       
+    }
+    
+}
+
+.product {
+    background-color: #1A1C20;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+.product img {
+    max-width: 100%;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+h3{
+    margin-top: 0;
+}
+.product-price{
+    margin-bottom: 0.5em;
+}
+
+.product button {
+    background-color: #EEEBD3;
+    color: #232931;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Optional: Making buttons full width */
+}
+
+.product button:hover {
+    background-color: #dcd8c0;
+}
+
+.transfer-form form {
+    background-color: #1A1C20;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.transfer-form label, .transfer-form input {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.transfer-form button {
+    background-color: #EEEBD3;
+    color: #232931;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.transfer-form button:hover {
+    background-color: #dcd8c0;
+}
+
+.title-transfer{
+    margin-top: 35px;
+}

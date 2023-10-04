@@ -1,95 +1,89 @@
 import Image from 'next/image'
 import styles from './page.module.css'
+import Layout from './components/Layout';
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <Layout>
+
+<main className='main-container'>
+        <section className="balance">
+            <div className="balance-info">
+                <h2>Your Balance</h2>
+                <span className="amount">1500 OMW</span>
+            </div>
+           
+        </section>
+
+      
+        <section className="products">
+            <h2>Redeem Products</h2>
+            <div className="product-list">
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <p className='product-price'>100 LTY</p>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                <div className="product">
+                <img src="https://picsum.photos/id/237/200/300" alt="Product 1"/>
+                    <h3>Product Name</h3>
+                    <span className='product-price'>100 LTY</span>
+                    <button>Redeem</button>
+                </div>
+                
+            </div>
+        </section>
+
+        
+        <div className="transfer-form">
+            <h2 className='title-transfer'>Transfer Tokens</h2>
+            <form>
+                <label htmlFor="address">Recipient Address:</label>
+                <input type="text" id="address" name="address" required/>
+                <label htmlFor="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required/>
+                <button type="submit">Send</button>
+            </form>
         </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
+    </Layout>
   )
 }

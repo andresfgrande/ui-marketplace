@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import Layout from './components/Layout';
-import Profile from './components/Profile';  
+
 
 
 
@@ -87,7 +87,7 @@ export default function Home() {
     </main>
    
    
-    <Profile></Profile>
+
       
     
       

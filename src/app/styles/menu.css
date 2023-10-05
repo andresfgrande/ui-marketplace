@@ -1,0 +1,115 @@
+/* Hamburger Icon */
+.hamburger {
+    
+    font-size: 40px;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: absolute;
+    top: 11px;
+}
+
+.hamburger:hover {
+    color: #EEEBD3;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -340px;
+    width: 300px;
+    height: 100%;
+    background-color: #404040; /* Dark background for contrast */
+    transition: left 0.3s;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* subtle shadow for depth */
+    z-index: 1000; /* Ensure it's above other elements */
+    top: 82px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 375px) {
+    .sidebar {
+        
+        padding: 0px;
+        width: 100%;
+    }
+    .sidebar.open .nav{
+        padding: 20px;
+    }
+    .button-disconnect-container{
+        padding: 20px;
+    }
+}
+
+
+.sidebar.open {
+    left: 0;
+    
+}
+
+/* Navigation Styles */
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 1em;
+  
+}
+
+.nav li {
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+}
+
+.nav li:hover {
+    transform: scale(1.05); /* subtle grow effect for interactivity */
+}
+
+.nav li span {
+    display: block;
+    text-align: center;
+    background-color: #555;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+    color: #9a9a9a; /* Consistent with your site theme */
+    text-decoration: none; /* Remove underlines */
+    font-weight: 500; /* Slightly bold */
+}
+
+.nav li span:hover {
+    background-color: #666;
+    color: #EEEBD3;
+}
+
+
+/* Disconnect button styling */
+.sidebar .button-disconnect {
+    width: 100%;  /* Full-width button */
+    margin-top: auto; /* Push the button to the bottom */
+    background-color: #333; /* Darker than the sidebar background */
+    color: #9a9a9a;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    font-weight: 500; /* Slightly bold */
+    outline: none;
+    margin-left: 0;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: Poppins;
+    margin-bottom: 135px;
+}
+
+.sidebar .button-disconnect:hover {
+    background-color: #282525;
+    color: #EEEBD3;
+}
+
+.button-disconnect-container{
+    margin-top: auto;
+}

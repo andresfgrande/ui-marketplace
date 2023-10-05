@@ -2,6 +2,8 @@ import './globals.css'
 import './styles/header.css'
 import './styles/footer.css'
 import './styles/body.css'
+import './styles/profile.css'
+import './styles/menu.css'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })

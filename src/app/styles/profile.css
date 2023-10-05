@@ -1,0 +1,90 @@
+/* Base Styles for Button */
+.button {
+    background-color: transparent;
+    border: 2px solid #9a9a9a;
+    color: #9a9a9a;
+    border-radius: 12px;
+    padding: 6.5px 20px;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+    font-size: inherit; /* To ensure the button font size matches the surrounding text */
+    margin-left: 15px; /* To give some spacing from adjacent elements */
+    display: inline-block; /* To apply the defined styles */
+    text-align: center;
+    font-family: Poppins;
+    font-weight: 500;
+}
+
+/* Hover Styles for Button */
+.button:hover {
+    color: #EEEBD3;
+    background-color: #404040;
+    border-color: #EEEBD3;
+}
+
+/* Active Styles for Button (when button is pressed) */
+.button:active {
+    color: #9a9a9a;
+    background-color: #292929;
+    border-color: #9a9a9a;
+}
+
+.address-wrapper:hover {
+    color: #EEEBD3;
+    background-color: #404040;
+    border-color: #EEEBD3;
+}
+
+.address-wrapper {
+    background-color: transparent;
+    border: 2px solid #9a9a9a;
+    color: #9a9a9a;
+    border-radius: 12px;
+    padding: 6.5px 14px;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+    font-size: inherit;
+    display: inline-block;
+    text-align: center;
+    letter-spacing: 0.15px;
+    font-family: Poppins;
+    font-weight: 500;
+}
+
+@media (max-width: 640px) {
+    .address-wrapper {
+       font-size: 12.5px;
+       padding: 8.5px 7px;
+    }
+    .header-content .button{
+        font-size: 12.5px;
+        padding: 8.5px 20px;
+    }
+}
+
+.copy-icon {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.disconnect-icon {
+    margin-left: 10px; /* Space between address and icon */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #9a9a9a;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 16px; /* Adjust size as per your needs */
+    width: 32px;     /* Set a fixed size for square appearance */
+    height: 32px;
+}
+
+.disconnect-icon:hover {
+    color: #EEEBD3;
+    background-color: #404040;
+}

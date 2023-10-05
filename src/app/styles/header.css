@@ -20,8 +20,7 @@ body {
 .header-content{
     max-width: 1200px;
     margin: auto;
-    display: flex;
-    justify-content: space-between;
+    
     align-items: center;
     width: 100%;
 }
@@ -39,10 +38,18 @@ header {
     z-index: 1000;  /* Optional: to ensure header stays on top of other elements */
 }
 
+@media (max-width: 640px) {
+    .header{
+        padding-bottom: 1.45em;
+    }
+}
+
 .logo {
     font-size: 24px;
     font-weight: bold;
     color: #EEEBD3;
+    position: absolute;
+    top: 24px;
 }
 
 nav a {
@@ -61,4 +68,16 @@ nav a:hover {
 
 .span {
     display: inline-block; /* Make span inline-block to apply padding and border-radius */
+}
+
+.header-menu-item{
+    display: inline-block;
+}
+.header-logo-item{
+    display: inline-block;
+    margin-left: 3rem;
+}
+.header-connect-item{
+    display: inline-block;
+    float: right;
 }

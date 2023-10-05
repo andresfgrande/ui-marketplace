@@ -34,6 +34,7 @@
         
         padding: 0px;
         width: 100%;
+        
     }
     .sidebar.open .nav{
         padding: 20px;
@@ -41,6 +42,15 @@
     .button-disconnect-container{
         padding: 20px;
     }
+}
+
+@media (max-width: 640px) {
+    .sidebar {
+        
+       top: 80px;
+        
+    }
+   
 }
 
 

@@ -16,7 +16,7 @@ const Balance = () => {
       <div className="balance-info">
         <h2>Your Balance</h2>
         {isLoading && <span className="amount">Fetching balance…</span>}
-        {isError && <span className="amount">Reload page</span>}
+        {isError && <span className="amount">{error.message}</span>}
         {isDisconnected && <span className="amount">0 OMWT</span>}
         {isConnected && <span className="amount">{data?.formatted} {data?.symbol}</span>}
         {(!isLoading && !isError && !isDisconnected && !isConnected) && <span className="amount">0 OMWT</span>}

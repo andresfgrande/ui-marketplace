@@ -7,7 +7,7 @@ export default function ProductsGrid() {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [selectedCommerce, setSelectedCommerce] = useState('All');
 
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         let filtered = productsData;
@@ -45,7 +45,7 @@ export default function ProductsGrid() {
                         <ul className='stores-list'>
                             <li onClick={() => { setSelectedCommerce('All'); setSidebarOpen(false); }} className={selectedCommerce === 'All' ? 'active' : ''}>All</li>
                             {uniqueCommerces.map(commerce => (
-                                <li key={commerce} onClick={() => setSelectedCommerce(commerce)} className={selectedCommerce === commerce ? 'active' : ''}>
+                                <li key={commerce} onClick={() => {setSelectedCommerce(commerce);setSidebarOpen(false);}} className={selectedCommerce === commerce ? 'active' : ''}>
                                     {commerce}
                                 </li>
                             ))}
@@ -55,7 +55,7 @@ export default function ProductsGrid() {
                         <ul className='categories-list'>
                             <li onClick={() => { setSelectedCategory('All'); setSidebarOpen(false); }} className={selectedCategory === 'All' ? 'active' : ''}>All</li>
                             {uniqueCategories.map(category => (
-                                <li key={category} onClick={() => setSelectedCategory(category)} className={selectedCategory === category ? 'active' : ''}>
+                                <li key={category} onClick={() => {setSelectedCategory(category); setSidebarOpen(false)}} className={selectedCategory === category ? 'active' : ''}>
                                     {category}
                                 </li>
                             ))}

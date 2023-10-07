@@ -1,0 +1,66 @@
+.transfer-form form {
+    background-color: #1A1C20;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.transfer-form label, .transfer-form input {
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Styling the input fields */
+.transfer-form input {
+    height: 25px;               /* Increase the height of the input fields */
+    padding: 8px;               /* Add some padding to move the text inside */
+    border: 1px solid #888;     /* Add a border to the inputs */
+    border-radius: 5px;         /* Round the edges a bit */
+    font-size: 16px;            /* Make the font a bit bigger */
+    color: #FFF;                /* Set input text color */
+    background-color: #232931;  /* Set input background color */
+    font-family: Poppins;
+}
+
+.transfer-form input::placeholder {
+    color: #888;                /* Set a lighter color for placeholder text */
+}
+
+.transfer-form button {
+    background-color: #EEEBD3;
+    color: #232931;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: Poppins;
+}
+
+.transfer-form button:hover {
+    background-color: #dcd8c0;
+}
+
+.title-transfer {
+    margin-top: 35px;
+}
+
+.transfer-form{
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+   .transfer-form .submit-transfer-form{
+    width: 100%;
+    margin-top: 0.75em;
+   }
+    
+}
+
+@media (min-width: 768px) {
+    .transfer-form .submit-transfer-form{
+        width: 200px;
+        margin-top: 0.75em;
+    }
+     
+ }

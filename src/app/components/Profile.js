@@ -1,4 +1,4 @@
-
+'use client';
 import {useState} from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'

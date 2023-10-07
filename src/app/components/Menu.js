@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
@@ -12,10 +13,17 @@ const Menu = () => {
 
   const { disconnect } = useDisconnect();
 
+
+  
+  const handleDisconnect = () => {
+    disconnect();
+    toggleSidebar();
+  };
+
   return (
     <div className='header-menu-item'>
       <div onClick={toggleSidebar} className="hamburger">
-         {isSidebarOpen ? "×" : "≡"}
+        <span> {isSidebarOpen ? "×" : "≡"}</span>
      </div>
 
       <div className={isSidebarOpen ? "sidebar open" : "sidebar"}>
@@ -26,6 +34,11 @@ const Menu = () => {
             </Link>
           </li>
           <li>
+            <Link href="/transactions">
+              <span>Transactions</span>
+            </Link>
+          </li>
+          <li>
             <Link href="/login">
               <span>Login</span>
             </Link>
@@ -33,7 +46,7 @@ const Menu = () => {
         </ul>
         {isConnected && 
         <div className='button-disconnect-container'>
-            <button className='button-disconnect' onClick={() => disconnect()}><span>Disconnect</span></button>
+            <button className='button-disconnect' onClick={handleDisconnect}><span>Disconnect</span></button>
         </div>
           
         }

@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import { useAccount } from 'wagmi'
@@ -21,7 +22,7 @@ const Header = () => {
      
       <div className='header-content'>
         <Menu></Menu>
-        <Link href="/" className='header-logo-item'><div className="logo">Loyalty</div></Link>
+        <Link href="/" className='header-logo-item'><span className="logo">Loyalty</span></Link>
         <Profile></Profile>
       </div>
     </header>

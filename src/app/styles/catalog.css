@@ -1,0 +1,279 @@
+.products h2, .transfer-form h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #EEEBD3;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); /* Updated line */
+    gap: 20px;
+   
+}
+@media (min-width: 768px) {
+
+    .product-list {
+       
+        grid-template-columns: repeat(auto-fill, minmax(225px, 1fr)); /* Updated line */
+      
+       
+    }
+}
+
+@media (max-width: 420px) {
+    .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(125px, 2fr)); /* Updated line */
+        gap: 15px;
+       
+    }
+    
+}
+
+.product {
+    background-color: #1A1C20;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+.product img {
+    max-width: 100%;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+h3{
+    margin-top: 0;
+}
+.product-price{
+    margin-bottom: 0.5em;
+}
+
+.product button {
+    background-color: #EEEBD3;
+    color: #232931;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-family: Poppins;
+}
+
+.product button:hover {
+    background-color: #dcd8c0;
+}
+
+
+.product {
+    background-color: #1A1C20;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+
+.product-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1; 
+}
+
+/****SIDEBAR****/
+.products-catalog{
+    width: 80%;
+    margin: 0 auto;  /* centering the main container */
+    padding-left: 20px;
+}
+
+.catalog-wrapper {
+    display: flex;
+    justify-content: space-between;  /* Add some space between the sidebar and the products */
+    width: 100%;
+}
+
+.sidebar-categories {
+    flex-basis: 20%;  /* explicitly setting the width of the sidebar to be 20% of its container */
+    padding-right: 20px;
+    box-sizing: border-box;  /* ensure padding and border are included in the 20% width */
+}
+
+.sidebar-categories ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-categories li {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, color 0.2s;
+    color: #EEEBD3;  /* A light default color for non-selected categories */
+}
+
+.sidebar-categories li:hover {
+    background-color: #1A1C20;  /* Darker color on hover */
+    color: #EEEBD3;  /* The light contrasting color for the text */
+}
+
+.sidebar-categories li.active {
+    border-color: #EEEBD3;  /* Match the primary color accent of the page */
+    background-color: #1A1C20;  /* Dark color for active category */
+    color: #EEEBD3;  /* Light contrasting color for the active category text */
+}
+.subtitle-categories{
+    margin-bottom: 1em;
+    margin-top: 1.75em;
+}
+.stores-list{
+    max-height: 350px;
+    overflow: auto;
+    margin-bottom: 2.75em;
+}
+
+.stores-list::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+.stores-list::-webkit-scrollbar-track {
+    background: #c0c0c0; /* Even darker color for the track */
+}
+
+.stores-list::-webkit-scrollbar-thumb {
+    background: #666; /* Dark color for the thumb */
+    border-radius: 5px; /* Rounded corners on the thumb */
+}
+
+.stores-list::-webkit-scrollbar-thumb:hover {
+    background: #444; /* Even darker shade for the thumb on hover */
+}
+
+/* For Firefox */
+.stores-list {
+    scrollbar-width: thin;
+    scrollbar-color: #666 #c0c0c0;
+}
+
+@media (max-width: 768px) {
+   .product-name{
+        font-size: 1em;
+   }
+    
+}
+
+/* Toggle Button */
+.sidebar-toggle {
+    display: none;  /* Hidden by default */
+    background-color: #1A1C20;
+    color: #EEEBD3;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.sidebar-toggle2{
+    display: none;
+}
+
+.sidebar-toggle:hover {
+    background-color: #232931;
+}
+
+@media (max-width: 1020px) {
+    /* Hide Sidebar by default below 1020px */
+    .sidebar-categories {
+        display: none;
+    }
+    
+    /* Show toggle button */
+   
+
+    .sidebar-toggle{
+        display: block;
+    }
+    .sidebar-toggle2{
+        display: block;
+    }
+    
+
+    /* Show sidebar when it's open */
+    .sidebar-categories.open {
+        display: block;
+    }
+    
+    /* Adjust the main container's width and remove the padding */
+    .products-catalog {
+        width: 100%;
+        padding-left: 0;
+    }
+    .sidebar-categories {
+        position: absolute; /* Make it float above the content */
+        top: 0;
+        left: 0; /* Start from the left side */
+        z-index: 10; /* Ensure it's above other elements */
+        height: 100vh; /* Take the full height of the viewport */
+        width: 70%; /* You can adjust as needed */
+        background-color: #1A1C20; /* Add a background color so content below doesn't show through */
+        overflow-y: auto; /* Add scrolling if content overflows */
+        box-shadow: 3px 0 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow to give depth */
+        top: 80px;
+        padding: 20px;
+    }
+
+    .sidebar-toggle, .sidebar-toggle2 {
+     
+        background-color: #232931; /* Neutral background color */
+        color: #EEEBD3; 
+        border: none;
+        border-radius: 15px;
+        font-size: 16px;
+        padding: 10px 20px;
+        box-shadow: 8px 8px 16px #1a1c20, 
+                   -8px -8px 16px #2a2c30;
+        transition: box-shadow 0.3s ease, transform 0.3s ease; 
+        cursor: pointer;
+        margin-bottom: 15px;
+        outline: none;
+    }
+    
+    .sidebar-toggle:hover, .sidebar-toggle2:hover {
+        box-shadow: 5px 5px 10px #1a1c20,
+                   -5px -5px 10px #2a2c30;
+        transform: translateY(-2px);
+    }
+    
+    .sidebar-toggle:active, .sidebar-toggle2:active {
+        box-shadow: 3px 3px 6px #1a1c20,
+                   -3px -3px 6px #2a2c30;
+        transform: translateY(1px);
+    }
+    
+    /* To ensure visibility when the sidebar is open */
+    .sidebar-toggle.toggle-opened, .sidebar-toggle2.toggle2-opened {
+        background-color: #EEEBD3;
+        color: #232931;
+        box-shadow: inset 5px 5px 10px #dcd8c0, 
+                    inset -5px -5px 10px #ffffff;
+    }
+    
+    .sidebar-toggle.toggle-opened:hover, .sidebar-toggle2.toggle2-opened:hover {
+        box-shadow: inset 3px 3px 6px #dcd8c0,
+                    inset -3px -3px 6px #ffffff;
+        transform: translateY(-2px);
+    }
+   
+}
+

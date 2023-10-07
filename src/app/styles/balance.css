@@ -1,0 +1,39 @@
+.balance-info{
+    min-height: 138px;
+}
+
+.balance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.balance-info h2, .activity h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.amount {
+    font-size: 60px;
+    color: #EEEBD3;
+}
+    @media (max-width: 540px) {
+        .amount {
+            font-size: 45px; 
+            
+        }
+    }
+    @media (max-width: 380px) {
+        .amount {
+            font-size: 40px; 
+            
+        }
+    }
+
+    @media (max-width: 768px) {
+        .balance-info{
+            min-height: 108px;
+        }
+    }

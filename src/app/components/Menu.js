@@ -53,8 +53,8 @@ const Menu = () => {
             </Link>
           </li>
           <li>
-            <Link href="/login">
-              <span>Login</span>
+            <Link href="/register">
+              <span>Register</span>
             </Link>
           </li>
         </ul>

@@ -7,6 +7,8 @@ import { useBalance, useAccount, } from 'wagmi';
 import { readContract} from '@wagmi/core';
 import { keccak256, encodePacked, parseEther} from 'viem';
 import { ethers } from 'ethers';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function FormTransfer(){
 
@@ -60,7 +62,7 @@ export default function FormTransfer(){
 
     console.log('on gasless approve tokens');
    
-    const tokenAmountInWei = ethers.parseUnits('9999999999', 18); //Será un valor muy grande
+    const tokenAmountInWei = ethers.parseUnits('9999999999999999999', 18); //Será un valor muy grande
     console.log(tokenAmountInWei);
 
     const message = ethers.solidityPackedKeccak256(
@@ -70,21 +72,31 @@ export default function FormTransfer(){
 
     const signedApproval = await signer.signMessage(ethers.getBytes(message));
 
-    const response = await fetch('http://localhost:6475/approve', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          owner: address,
-          spender: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS,
-          value: tokenAmountInWei.toString(),
-          signature: signedApproval
-      })
-    });
+    const requestData = {
+      owner: address,
+      spender: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS,
+      value: tokenAmountInWei.toString(),
+      signature: signedApproval
+    };
+
+    const response = await toast.promise(
+        fetch('http://localhost:6475/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        }),
+        {
+            pending: 'Processing transaction...',
+            success: 'Transaction confirmed!',
+            error: 'Failed! Try again'
+        }
+    );
 
     const data = await response.json();
-    if (data.success) {
+
+    if (data && data.success) {
         console.log(`Approval transaction hash: ${data.txHash}`);
         setIsAllowanceSet(true);
         return data.txHash;
@@ -92,6 +104,7 @@ export default function FormTransfer(){
         console.error(data.message);
         throw new Error(data.message);
     }
+
   }
 
   async function gaslessTransferTokens() {
@@ -103,7 +116,7 @@ export default function FormTransfer(){
 
       //controlar primero mi balance para dejar enviar lo justo
       const tokenAmountInWei = ethers.parseUnits('1', 18); //Será un valor de input amount
-      const toAddress = "0x626DB02134CB1E1a61483057a61315801809a71c"; //Será valor de input recipient address
+      const toAddress = "0x4c5da66830d94B20d740106144f3C6a2Dc0D91b1"; //Será valor de input recipient address
 
       const message = ethers.solidityPackedKeccak256(
         ['address', 'address', 'uint256'],
@@ -112,21 +125,30 @@ export default function FormTransfer(){
 
       const signedTransfer = await signer.signMessage(ethers.getBytes(message));
 
-        const response = await fetch('http://localhost:6475/relay', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              from: address,
-              to: toAddress,
-              amount: tokenAmountInWei.toString(),
-              signature: signedTransfer
-          })
-      });
+      const requestData = {
+        from: address,
+        to: toAddress,
+        amount: tokenAmountInWei.toString(),
+        signature: signedTransfer
+      }
+
+      const response = await toast.promise(
+         fetch('http://localhost:6475/relay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+          }),
+          {
+            pending: 'Processing transaction...',
+            success: 'Transaction confirmed!',
+            error: 'Failed! Try again'
+          }
+      );
 
       const data = await response.json();
-      if (data.success) {
+      if (data && data.success) {
           console.log(`Transaction hash: ${data.txHash}`);
       } else {
           console.error(data.message);
@@ -151,6 +173,7 @@ export default function FormTransfer(){
         </div>
       )}
       </form>
+        <ToastContainer position="bottom-right"  />
     </div>
   )
 }

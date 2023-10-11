@@ -8,7 +8,8 @@ const Balance = () => {
 
   const { data, isError, isLoading, error } = useBalance({
     address: address,
-    token: '0x204bEf42f4f62Df9612C593dFaf81Cd006C09255',
+    token: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS,
+    watch: true
   })
 
   return (

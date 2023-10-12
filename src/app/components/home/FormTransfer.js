@@ -5,7 +5,6 @@ import LoyaltyProgramFactory from "../../../Abi/loyalty-program-factory.json";
 import OmniToken from "../../../Abi/omni-token.json";
 import { useBalance, useAccount, } from 'wagmi';
 import { readContract} from '@wagmi/core';
-import { keccak256, encodePacked, parseEther} from 'viem';
 import { ethers } from 'ethers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

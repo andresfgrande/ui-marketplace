@@ -52,7 +52,7 @@ const Balance = () => {
     if (address) {
         getUserInfo();
     }
-  }, [address]);
+  }, [address,isConnected]);
 
   return (
     <section className="balance">
@@ -70,7 +70,7 @@ const Balance = () => {
             <p className="loyalid-text">{loyalID}</p>
         ) : isConnected ? (
             <div>
-                <p>You're not registered yet!</p>
+                <p>{"You're not registered yet!"}</p>
                 <form className='register-form' onSubmit={registerUser}>
                     <input
                         type="text"

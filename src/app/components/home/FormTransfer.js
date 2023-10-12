@@ -26,8 +26,6 @@ export default function FormTransfer(){
     watch: true
   })
 
-
-
   useEffect(() => {
     async function checkAllowance() {
       const allowance = await getAllowance();

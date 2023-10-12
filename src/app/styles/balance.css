@@ -5,8 +5,19 @@
 .balance {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 50px 0;
+    gap: 1.5em;
+}
+
+@media (max-width: 600px) {
+    .balance {
+        display: flex;
+        flex-direction: column;
+    }
+    .loyalid-text{
+        margin-top: 1em;
+        font-size: 1.3rem;
+    }
 }
 
 .balance-info h2, .activity h2 {
@@ -37,3 +48,83 @@
             min-height: 108px;
         }
     }
+
+   
+
+
+@media (min-width: 600px) {
+    .loyalid-text{
+        font-size: 1.3rem;
+        margin-top: 2.05em;
+    }
+}
+
+/****USER INFO****/
+
+.user-info p {
+    color: #888;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.user-info form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info .register-form input {
+    height: 25px;              
+    padding: 8px;               
+    border: 1px solid #888;    
+    border-radius: 5px;       
+    font-size: 16px;            
+    color: #FFF;                
+    background-color: #232931;  
+    font-family: Poppins;
+    margin-bottom: 0.2em;
+}
+
+@media (max-width: 600px) {
+    .user-info .register-form input {
+       width: 100%;
+       
+    }
+}
+
+.user-info .register-form input::placeholder {
+    color: #888;               
+}
+
+.user-info .register-form button {
+    background-color: #EEEBD3;
+    color: #232931;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: Poppins;
+    width: 100%; 
+}
+
+.user-info .register-form button:hover {
+    background-color: #dcd8c0;
+}
+
+@media (max-width: 600px) {
+    .user-info .register-form input, 
+    .user-info .register-form button {
+        max-width: 100%; 
+        box-sizing: border-box; 
+        padding: 8px;
+    }
+    .user-info .register-form input{
+        height: 43px;
+    }
+
+    .user-info .register-form button{
+        height: 40px;
+    }
+}

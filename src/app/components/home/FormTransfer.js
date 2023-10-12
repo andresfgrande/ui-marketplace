@@ -16,7 +16,6 @@ export default function FormTransfer(){
 
   const [isAllowanceSet, setIsAllowanceSet] = useState(null); 
   const [showBlur, setShowBlur] = useState(false); 
-
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
 

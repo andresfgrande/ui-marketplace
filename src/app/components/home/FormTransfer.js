@@ -17,6 +17,15 @@ export default function FormTransfer(){
   const [isAllowanceSet, setIsAllowanceSet] = useState(null); 
   const [showBlur, setShowBlur] = useState(false); 
 
+  const [recipientAddress, setRecipientAddress] = useState('');
+  const [tokenAmount, setTokenAmount] = useState('');
+
+  const { data, isError, isLoading, error } = useBalance({
+    address: address,
+    token: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS,
+    watch: true
+  })
+
   useEffect(() => {
     async function checkAllowance() {
       const allowance = await getAllowance();
@@ -40,6 +49,8 @@ export default function FormTransfer(){
     }
   }, [isConnected, isAllowanceSet]);
 
+ 
+
   async function getAllowance() {
     try {
       const data = await readContract({
@@ -62,7 +73,7 @@ export default function FormTransfer(){
 
     console.log('on gasless approve tokens');
    
-    const tokenAmountInWei = ethers.parseUnits('9999999999999999999', 18); //Será un valor muy grande
+    const tokenAmountInWei = ethers.parseUnits('9999999999999999999', 18); 
     console.log(tokenAmountInWei);
 
     const message = ethers.solidityPackedKeccak256(
@@ -110,66 +121,87 @@ export default function FormTransfer(){
   async function gaslessTransferTokens() {
     if (isConnected) {
       console.log('on gasless transfer tokens');
-
+  
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-
-      //controlar primero mi balance para dejar enviar lo justo
-      const tokenAmountInWei = ethers.parseUnits('1', 18); //Será un valor de input amount
-      const toAddress = "0x4c5da66830d94B20d740106144f3C6a2Dc0D91b1"; //Será valor de input recipient address
-
+  
+      const tokenAmountInWei = ethers.parseUnits(tokenAmount.toString(), 18);
+      const toAddress = recipientAddress;
+  
       const message = ethers.solidityPackedKeccak256(
         ['address', 'address', 'uint256'],
         [address, toAddress, tokenAmountInWei]
       );
-
+  
       const signedTransfer = await signer.signMessage(ethers.getBytes(message));
-
+  
       const requestData = {
         from: address,
         to: toAddress,
         amount: tokenAmountInWei.toString(),
         signature: signedTransfer
       }
-
+  
       const response = await toast.promise(
-         fetch('http://localhost:6475/relay', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-          }),
-          {
-            pending: 'Processing transaction...',
-            success: 'Transaction confirmed!',
-            error: 'Failed! Try again'
+        fetch('http://localhost:6475/relay', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        }).then(res => {
+          if (!res.ok) {
+            return res.json().then(data => {
+              throw new Error(data.message || 'Failed! Try again');
+            });
           }
+          return res;
+        }),
+        {
+          pending: 'Processing transaction...',
+          success: 'Transaction confirmed!',
+          error: 'Failed! Try again.'
+        }
       );
-
+  
       const data = await response.json();
       if (data && data.success) {
           console.log(`Transaction hash: ${data.txHash}`);
+          setRecipientAddress('');
+          setTokenAmount('');
       } else {
           console.error(data.message);
       }
-   }  else{
-    console.log('Connect wallet')
-   }
+    }  else{
+      console.log('Connect wallet')
+    }
   }
+  
 
   return(
     <div className="transfer-form">
       <h2 className='title-transfer'>Transfer Tokens</h2>
       <form className="transfer-form">
         <label htmlFor="address">Recipient Address:</label>
-        <input type="text" id="address" name="address" required />
+        <input 
+        type="text" 
+        value={recipientAddress} 
+        id="address" 
+        name="address" 
+        onChange={e => setRecipientAddress(e.target.value)}
+        required />
         <label htmlFor="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" required />
-        <button className="submit-transfer-form" type="submit" onClick={() => gaslessTransferTokens()} >Send</button>
+        <input 
+        type="number" 
+        id="amount" 
+        name="amount" 
+        value={tokenAmount}
+        onChange={e => setTokenAmount(e.target.value)}
+        required />
+        <button className="submit-transfer-form" type="button" onClick={() => gaslessTransferTokens()} >Send</button>
         {showBlur && (
         <div className="blur-overlay">
-          <button onClick={()=>gaslessApproveTokens()}>Activate token transfers</button>
+          <button type="button" onClick={()=>gaslessApproveTokens()}>Activate token transfers</button>
         </div>
       )}
       </form>

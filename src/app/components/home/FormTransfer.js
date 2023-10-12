@@ -20,6 +20,14 @@ export default function FormTransfer(){
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
 
+  const { data, isError, isLoading, error } = useBalance({
+    address: address,
+    token: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS,
+    watch: true
+  })
+
+
+
   useEffect(() => {
     async function checkAllowance() {
       const allowance = await getAllowance();
@@ -42,6 +50,8 @@ export default function FormTransfer(){
       setShowBlur(false);
     }
   }, [isConnected, isAllowanceSet]);
+
+ 
 
   async function getAllowance() {
     try {
@@ -117,7 +127,6 @@ export default function FormTransfer(){
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
   
-      //controlar primero mi balance para dejar enviar lo justo
       const tokenAmountInWei = ethers.parseUnits(tokenAmount.toString(), 18);
       const toAddress = recipientAddress;
   

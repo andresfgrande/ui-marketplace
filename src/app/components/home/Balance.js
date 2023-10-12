@@ -33,7 +33,7 @@ const Balance = () => {
             setLoyaltyProgramAddress(loyaltyProgram);
             console.log([loyalIDFromContract, loyaltyProgram]);
         }else{
-          console.log('No registered');
+          console.log('No registered!');
         }
         
     } catch (error) {

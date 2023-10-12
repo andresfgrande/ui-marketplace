@@ -43,8 +43,7 @@ const Balance = () => {
 
   const registerUser = (e) => {
     e.preventDefault();
-    // Here you can add logic to handle the form submission.
-    // For instance, sending the `inputValue` to your backend or smart contract.
+   
     console.log("Submitted:", inputValue);
 };
 

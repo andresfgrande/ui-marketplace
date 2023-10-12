@@ -3,7 +3,7 @@ import React, { useEffect , useState} from "react";
 import LoyaltyProgram from "../../../Abi/loyalty-program.json";
 import LoyaltyProgramFactory from "../../../Abi/loyalty-program-factory.json";
 import OmniToken from "../../../Abi/omni-token.json";
-import { useBalance, useAccount, } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { readContract} from '@wagmi/core';
 import { ethers } from 'ethers';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,12 +17,6 @@ export default function FormTransfer(){
   const [showBlur, setShowBlur] = useState(false); 
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
-
-  const { data, isError, isLoading, error } = useBalance({
-    address: address,
-    token: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS,
-    watch: true
-  })
 
   useEffect(() => {
     async function checkAllowance() {

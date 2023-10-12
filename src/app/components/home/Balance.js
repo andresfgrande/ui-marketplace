@@ -41,7 +41,7 @@ const Balance = () => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const registerUser = (e) => {
     e.preventDefault();
     // Here you can add logic to handle the form submission.
     // For instance, sending the `inputValue` to your backend or smart contract.
@@ -71,7 +71,7 @@ const Balance = () => {
         ) : isConnected ? (
             <div>
                 <p>You're not registered yet!</p>
-                <form className='register-form' onSubmit={handleSubmit}>
+                <form className='register-form' onSubmit={registerUser}>
                     <input
                         type="text"
                         value={inputValue}

@@ -119,9 +119,9 @@ const Balance = () => {
       </div>
       <div className='balance-info user-info'>
         <h2>Loyal ID</h2>
-        {loyalID ? (
+        {isConnected && loyalID ? (
             <p className="loyalid-text">{loyalID}</p>
-        ) : isConnected && loyalID ? (
+        ) : isConnected && !loyalID ? (
             <div>
                 <p>{"You're not registered yet!"}</p>
                 <form className='register-form' onSubmit={registerUser}>

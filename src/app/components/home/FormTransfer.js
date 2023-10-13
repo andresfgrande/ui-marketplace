@@ -6,8 +6,7 @@ import OmniToken from "../../../Abi/omni-token.json";
 import { useAccount } from 'wagmi';
 import { readContract} from '@wagmi/core';
 import { ethers } from 'ethers';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 export default function FormTransfer(){
 
@@ -135,7 +134,7 @@ export default function FormTransfer(){
       }
   
       const response = await toast.promise(
-        fetch('http://localhost:6475/relay', {
+        fetch('http://localhost:6475/transfer', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -197,7 +196,6 @@ export default function FormTransfer(){
         </div>
       )}
       </form>
-        <ToastContainer position="bottom-right"  />
     </div>
   )
 }

@@ -1,12 +1,14 @@
-'use client';
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-import {polygonMumbai } from 'wagmi/chains'; //ok
+import {polygonMumbai } from 'wagmi/chains'; 
 import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [polygonMumbai],
@@ -25,7 +27,7 @@ const Layout = ({ children }) => (
   <Header />
   {children}
   <Footer />
-
+  <ToastContainer position="bottom-center"  />
 </WagmiConfig>
  
 );

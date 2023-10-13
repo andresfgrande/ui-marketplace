@@ -85,6 +85,9 @@
     font-family: Poppins;
     margin-bottom: 0.2em;
 }
+.user-info{
+    min-width: 200px;
+}
 
 @media (max-width: 600px) {
     .user-info .register-form input {

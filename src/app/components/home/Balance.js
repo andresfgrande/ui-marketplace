@@ -50,7 +50,7 @@ const Balance = () => {
     if(isConnected){
       console.log('on submit register address!');
 
-      let prefix = inputValue.slice(0,3);
+      let prefix = inputValue.slice(0,4);
       const requestData = {
         address: address,
         loyaltyId: inputValue,
@@ -105,7 +105,7 @@ const Balance = () => {
       setLoyalID('');
       setLoyaltyProgramAddress('');
     }
-  }, [address,isConnected,isDisconnected]);
+  }, [address]);
 
   return (
     <section className="balance">
@@ -119,16 +119,16 @@ const Balance = () => {
       </div>
       <div className='balance-info user-info'>
         <h2>Loyal ID</h2>
-        {isConnected && loyalID ? (
+        {loyalID ? (
             <p className="loyalid-text">{loyalID}</p>
-        ) : isConnected && !loyalID ? (
+        ) : isConnected ? (
             <div>
                 <p>{"You're not registered yet!"}</p>
                 <form className='register-form' onSubmit={registerUser}>
                     <input
                         type="text"
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        onChange={(e) => setInputValue(e.target.value.toUpperCase())}
                         placeholder="Enter your loyal ID"
                     />
                     <button type="submit">Register</button>

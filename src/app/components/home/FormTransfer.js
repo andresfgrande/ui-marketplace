@@ -17,6 +17,9 @@ export default function FormTransfer(){
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
 
+  const [loyalID, setLoyalID] = useState("");
+  const [loyaltyProgramAddress, setLoyaltyProgramAddress] = useState("");
+
   useEffect(() => {
     async function checkAllowance() {
       const allowance = await getAllowance();
@@ -40,7 +43,36 @@ export default function FormTransfer(){
     }
   }, [isConnected, isAllowanceSet]);
 
- 
+  useEffect(() => {
+    if(address){
+      getUserInfo();
+    }
+  }, [address])
+  
+
+  async function getUserInfo() {
+    try {
+        const [loyalIDFromContract, loyaltyProgram] = await readContract({
+            address: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_FACTORY_ADDRESS,
+            abi: LoyaltyProgramFactory.abi,
+            functionName: 'getUserInfoByAddress',
+            args: [address]
+        });
+        
+        if (loyalIDFromContract) {
+            setLoyalID(loyalIDFromContract);
+            setLoyaltyProgramAddress(loyaltyProgram);
+            console.log([loyalIDFromContract, loyaltyProgram]);
+        }else{
+          console.log('No registered2!');
+          setLoyalID('');
+          setLoyaltyProgramAddress('');
+        }
+        
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+  }
 
   async function getAllowance() {
     try {

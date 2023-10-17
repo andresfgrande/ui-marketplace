@@ -162,7 +162,9 @@ export default function FormTransfer(){
         from: address,
         to: toAddress,
         amount: tokenAmountInWei.toString(),
-        signature: signedTransfer
+        signature: signedTransfer,
+        loyaltyProgramAddress: loyaltyProgramAddress,
+        commercePrefix: loyalID.slice(0,4)
       }
   
       const response = await toast.promise(

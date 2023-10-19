@@ -20,6 +20,9 @@ export default function FormTransfer(){
   const [loyalID, setLoyalID] = useState("");
   const [loyaltyProgramAddress, setLoyaltyProgramAddress] = useState("");
 
+  const notifyRegister = () => toast("Register your Loyal ID!");
+  const notifyConnect = () => toast("Connect your wallet!");
+
   useEffect(() => {
     async function checkAllowance() {
       const allowance = await getAllowance();
@@ -49,7 +52,7 @@ export default function FormTransfer(){
     }
   }, [address])
   
-
+//TODO update user info when loyalty id registered
   async function getUserInfo() {
     try {
         const [loyalIDFromContract, loyaltyProgram] = await readContract({
@@ -91,7 +94,9 @@ export default function FormTransfer(){
 
   async function gaslessApproveTokens() {
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
+    if(isConnected && loyalID){
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
 
     console.log('on gasless approve tokens');
@@ -110,7 +115,9 @@ export default function FormTransfer(){
       owner: address,
       spender: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS,
       value: tokenAmountInWei.toString(),
-      signature: signedApproval
+      signature: signedApproval,
+      loyaltyProgramAddress: loyaltyProgramAddress,
+      commercePrefix: loyalID.slice(0,4)
     };
 
     const response = await toast.promise(
@@ -139,6 +146,13 @@ export default function FormTransfer(){
         throw new Error(data.message);
     }
 
+    }else{
+      notifyRegister();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
   }
 
   async function gaslessTransferTokens() {
@@ -199,6 +213,7 @@ export default function FormTransfer(){
       }
     }  else{
       console.log('Connect wallet')
+      notifyConnect();
     }
   }
   

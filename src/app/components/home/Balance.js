@@ -54,10 +54,9 @@ const Balance = () => {
       const requestData = {
         address: address,
         loyaltyId: inputValue,
-        loyaltyPrefix: prefix
+        commercePrefix: prefix
       }
      
-
       const response = await toast.promise(
         fetch('http://localhost:6475/register', {
           method: 'POST',
@@ -85,6 +84,7 @@ const Balance = () => {
           console.log(`Transaction hash: ${data.txHash}`);
           getUserInfo();
           setInputValue('');
+          //TODO update user info in form transfer when loyalty id registered
       } else {
           console.error(data.message);
       }
@@ -99,6 +99,7 @@ const Balance = () => {
   useEffect(() => {
     if (address) {
         getUserInfo();
+        setInputValue('');
     }
 
     if (isDisconnected){

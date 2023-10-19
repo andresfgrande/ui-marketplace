@@ -52,11 +52,7 @@ const Menu = () => {
               <span>Transactions</span>
             </Link>
           </li>
-          <li>
-            <Link href="/register">
-              <span>Register</span>
-            </Link>
-          </li>
+          
         </ul>
         {isConnected && 
           <div className='button-disconnect-container'>

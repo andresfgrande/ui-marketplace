@@ -8,7 +8,7 @@ import { readContract} from '@wagmi/core';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 
-export default function FormTransfer(){
+export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserInfo , data, isError, isLoading, error, refetch}){
 
   const { address, isConnected } = useAccount(); 
 
@@ -16,9 +16,6 @@ export default function FormTransfer(){
   const [showBlur, setShowBlur] = useState(false); 
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
-
-  const [loyalID, setLoyalID] = useState("");
-  const [loyaltyProgramAddress, setLoyaltyProgramAddress] = useState("");
 
   const notifyRegister = () => toast("Register your Loyal ID!");
   const notifyConnect = () => toast("Connect your wallet!");
@@ -52,31 +49,6 @@ export default function FormTransfer(){
     }
   }, [address])
   
-//TODO update user info when loyalty id registered
-  async function getUserInfo() {
-    try {
-        const [loyalIDFromContract, loyaltyProgram] = await readContract({
-            address: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_FACTORY_ADDRESS,
-            abi: LoyaltyProgramFactory.abi,
-            functionName: 'getUserInfoByAddress',
-            args: [address]
-        });
-        
-        if (loyalIDFromContract) {
-            setLoyalID(loyalIDFromContract);
-            setLoyaltyProgramAddress(loyaltyProgram);
-            console.log([loyalIDFromContract, loyaltyProgram]);
-        }else{
-          console.log('No registered2!');
-          setLoyalID('');
-          setLoyaltyProgramAddress('');
-        }
-        
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
-  }
-
   async function getAllowance() {
     try {
       const data = await readContract({
@@ -106,14 +78,14 @@ export default function FormTransfer(){
 
     const message = ethers.solidityPackedKeccak256(
       ['address', 'address', 'uint256'],
-      [address, process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS, tokenAmountInWei] //Loyalty program coger dinamicamente by user
+      [address, loyaltyProgramAddress, tokenAmountInWei] //Loyalty program coger dinamicamente by user
     );
 
     const signedApproval = await signer.signMessage(ethers.getBytes(message));
 
     const requestData = {
       owner: address,
-      spender: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS,
+      spender: loyaltyProgramAddress,
       value: tokenAmountInWei.toString(),
       signature: signedApproval,
       loyaltyProgramAddress: loyaltyProgramAddress,
@@ -208,6 +180,7 @@ export default function FormTransfer(){
           console.log(`Transaction hash: ${data.txHash}`);
           setRecipientAddress('');
           setTokenAmount('');
+          refetch();
       } else {
           console.error(data.message);
       }

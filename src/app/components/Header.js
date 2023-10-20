@@ -22,7 +22,7 @@ const Header = () => {
      
       <div className='header-content'>
         <Menu></Menu>
-        <Link href="/" className='header-logo-item'><span className="logo">OmniWallet</span></Link>
+        <Link href="/" className='header-logo-item'><span className="logo">OmniWallet3</span></Link>
         <Profile></Profile>
       </div>
     </header>

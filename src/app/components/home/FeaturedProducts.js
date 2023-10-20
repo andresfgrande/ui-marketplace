@@ -1,7 +1,7 @@
 import React from "react";
 import productsData from '../../../data/catalog.json';
 
-export default function FeaturedProducts (){
+export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getUserInfo }){
 
     const featuredProducts = productsData.filter(product => product.isFeatured).slice(0,10);
 

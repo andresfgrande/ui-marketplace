@@ -6,43 +6,10 @@ import { readContract} from '@wagmi/core';
 import LoyaltyProgramFactory from "../../../Abi/loyalty-program-factory.json";
 import {  toast } from 'react-toastify';
 
-const Balance = () => {
+const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, isLoading, error, refetch }) => {
 
   const { address, isConnecting, isDisconnected, isConnected } = useAccount()
-  const [loyalID, setLoyalID] = useState("");
-  const [loyaltyProgramAddress, setLoyaltyProgramAddress] = useState("");
   const [inputValue, setInputValue] = useState("");
-
-
-  const { data, isError, isLoading, error } = useBalance({
-    address: address,
-    token: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS,
-    watch: true
-  })
-
-  async function getUserInfo() {
-    try {
-        const [loyalIDFromContract, loyaltyProgram] = await readContract({
-            address: process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_FACTORY_ADDRESS,
-            abi: LoyaltyProgramFactory.abi,
-            functionName: 'getUserInfoByAddress',
-            args: [address]
-        });
-        
-        if (loyalIDFromContract) {
-            setLoyalID(loyalIDFromContract);
-            setLoyaltyProgramAddress(loyaltyProgram);
-            console.log([loyalIDFromContract, loyaltyProgram]);
-        }else{
-          console.log('No registered!');
-          setLoyalID('');
-          setLoyaltyProgramAddress('');
-        }
-        
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
-  }
 
   async function registerUser (e)  {
     e.preventDefault();
@@ -54,10 +21,9 @@ const Balance = () => {
       const requestData = {
         address: address,
         loyaltyId: inputValue,
-        loyaltyPrefix: prefix
+        commercePrefix: prefix
       }
      
-
       const response = await toast.promise(
         fetch('http://localhost:6475/register', {
           method: 'POST',
@@ -99,11 +65,11 @@ const Balance = () => {
   useEffect(() => {
     if (address) {
         getUserInfo();
+        setInputValue('');
     }
 
     if (isDisconnected){
-      setLoyalID('');
-      setLoyaltyProgramAddress('');
+      getUserInfo();
     }
   }, [address]);
 

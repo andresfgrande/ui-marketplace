@@ -56,6 +56,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         abi: OmniToken.abi,
         functionName: 'allowance',
         args: [address, process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS]
+        
       });
       return data;
     } catch (error) {

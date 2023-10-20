@@ -30,7 +30,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       }
     }
 
-    if (isConnected && address) {
+    if (isConnected && address && loyaltyProgramAddress) {
       checkAllowance();
     }
   }, [isConnected, address]);
@@ -48,6 +48,9 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       getUserInfo();
     }
   }, [address])
+
+
+  
   
   async function getAllowance() {
     try {
@@ -55,8 +58,8 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         address: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS, 
         abi: OmniToken.abi,
         functionName: 'allowance',
-        args: [address, process.env.NEXT_PUBLIC_LOYALTY_PROGRAM_ADDRESS]
-        
+        args: [address, loyaltyProgramAddress]
+
       });
       return data;
     } catch (error) {

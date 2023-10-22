@@ -79,9 +79,9 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
         <h2>Your Balance</h2>
         {isLoading && <span className="amount">Fetching balance…</span>}
         {isError && <span className="amount">{error.message}</span>}
-        {isDisconnected && <span className="amount">0 OMWT</span>}
+        {isDisconnected && <span className="amount">0 OMW</span>}
         {isConnected && <span className="amount">{data?.formatted} {data?.symbol}</span>}
-        {(!isLoading && !isError && !isDisconnected && !isConnected) && <span className="amount">0 OMWT</span>}
+        {(!isLoading && !isError && !isDisconnected && !isConnected) && <span className="amount">0 OMW</span>}
       </div>
       <div className='balance-info user-info'>
         <h2>Loyal ID</h2>

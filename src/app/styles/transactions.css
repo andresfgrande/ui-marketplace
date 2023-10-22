@@ -1,0 +1,48 @@
+.main-container {
+    padding: 20px;
+}
+
+.main-title {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #EAEAEA;
+}
+
+.transaction-section {
+    margin-bottom: 30px;
+}
+
+
+.transaction-table th {
+    background-color: #343a40;
+    color: #b1b1b1;
+}
+
+.transaction-table {
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-bottom: 1rem;
+}
+.transaction-table a{
+    color: #b1b1b1;
+}
+.transaction-table th, .transaction-table td {
+    width: 25%; 
+    padding: 0.5rem 0.75rem;
+    text-align: left; 
+    border-bottom: 1px solid #3a3b3c; 
+}
+
+.transaction-section {
+    margin-bottom: 2rem; 
+    overflow: auto;
+}
+
+.transaction-table td{
+    font-size: 0.85rem;
+}
+
+.transactions-subtitle{
+    margin-bottom: 1em;
+    font-size: 1.4rem;
+}

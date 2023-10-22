@@ -2,7 +2,6 @@ import React from "react";
 import Balance from './Balance'
 import FeaturedProducts from './FeaturedProducts';
 import FormTransfer from './FormTransfer';
-
 import { useUserInfo } from "../../hooks/useUserInfo"
 import { useAccount } from 'wagmi'; 
 import { useBalance} from 'wagmi';

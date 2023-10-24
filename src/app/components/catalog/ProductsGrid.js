@@ -70,7 +70,7 @@ export default function ProductsGrid() {
                                 <div className="product-content"> 
                                     <img src={product.image} alt={product.name} />
                                     <h3 className='product-name'>{product.name}</h3>
-                                    <p className='product-price'>{product.price} OMWT</p>
+                                    <p className='product-price'>{product.price} OMW</p>
                                 </div>
                                 <button>Redeem</button>
                             </div>

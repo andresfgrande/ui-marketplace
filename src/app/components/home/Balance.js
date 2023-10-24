@@ -48,7 +48,7 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
 
       const data = await response.json();
       if (data && data.success) {
-          console.log(`Transaction hash: ${data.txHash}`);
+          console.log(`Transaction hash: ${data.txHashRegister}`);
           getUserInfo();
           setInputValue('');
       } else {

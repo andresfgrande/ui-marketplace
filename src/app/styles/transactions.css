@@ -27,7 +27,7 @@
     color: #b1b1b1;
 }
 .transaction-table th, .transaction-table td {
-    width: 25%; 
+    width: 20%; 
     padding: 0.5rem 0.75rem;
     text-align: left; 
     border-bottom: 1px solid #3a3b3c; 

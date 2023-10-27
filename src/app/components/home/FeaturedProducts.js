@@ -38,7 +38,13 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
               [address, productCommerceAddress, loyaltyProgramAddress ,tokenAmountInWei]
             );
         
-            const signedRedeem = await signer.signMessage(ethers.getBytes(message));
+            let signedRedeem;
+            try {
+              signedRedeem = await signer.signMessage(ethers.getBytes(message));
+            } catch (error) {
+              toast.error('Signature rejected by user.');
+              return;  
+            }
         
             const requestData = {
               from: address,
@@ -75,8 +81,6 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
             const data = await response.json();
             if (data && data.success) {
                 console.log(`Transaction hash: ${data.txHash}`);
-                setRecipientAddress('');
-                setTokenAmount('');
                 refetch();
             } else {
                 console.error(data.message);

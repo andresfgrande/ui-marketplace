@@ -1,16 +1,12 @@
 import React, { useEffect , useState} from "react";
 import LoyaltyProgram from "../../../Abi/loyalty-program.json";
 import { ethers } from 'ethers';
+import { formatDate } from "../../../utils/dateUtils.js";
 
 export default function UserTransfers({address, isConnected, isDisconnected, loyalID, loyaltyProgramAddress, getUserInfo}){
 
     const [sentTokensEvents, setSentTokensEvents] = useState([]);
     const [receivedTokensEvents, setReceivedTokensEvents] = useState([]);
-
-    function formatDate(timestamp) {
-        const date = new Date(timestamp * 1000);
-        return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-    }
 
     async function fetchUserTokenTransfersByAddressSent() {
         if(address){
@@ -55,6 +51,7 @@ export default function UserTransfers({address, isConnected, isDisconnected, loy
 
         if(address && isConnected){
             getUserInfo();
+           
         }
        
         if(address && isConnected && loyaltyProgramAddress){

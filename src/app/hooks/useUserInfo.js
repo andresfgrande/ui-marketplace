@@ -7,7 +7,7 @@ export const useUserInfo = (address) => {
     const [loyaltyProgramAddress, setLoyaltyProgramAddress] = useState("");
 
     async function getUserInfo() {
-
+    
         if(address){
             try {
                 const [loyalIDFromContract, loyaltyProgram] = await readContract({
@@ -16,8 +16,7 @@ export const useUserInfo = (address) => {
                     functionName: 'getUserInfoByAddress',
                     args: [address]
                 });
-                
-                if (loyalIDFromContract) {
+                if (loyalIDFromContract && loyalIDFromContract !== null && loyalIDFromContract !== "") {
                     setLoyalID(loyalIDFromContract);
                     setLoyaltyProgramAddress(loyaltyProgram);
                 } else {

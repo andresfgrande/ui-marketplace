@@ -44,7 +44,15 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         [address, loyaltyProgramAddress, tokenAmountInWei] 
       );
 
-      const signedApproval = await signer.signMessage(ethers.getBytes(message));
+      //const signedApproval = await signer.signMessage(ethers.getBytes(message));
+
+      let signedApproval ;
+      try {
+        signedApproval  = await signer.signMessage(ethers.getBytes(message));
+      } catch (error) {
+        toast.error('Signature rejected by user.');
+        return;  
+      }
 
       const requestData = {
         owner: address,
@@ -106,7 +114,13 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         [address, toAddress, tokenAmountInWei]
       );
   
-      const signedTransfer = await signer.signMessage(ethers.getBytes(message));
+      let signedTransfer ;
+      try {
+        signedTransfer  = await signer.signMessage(ethers.getBytes(message));
+      } catch (error) {
+        toast.error('Signature rejected by user.');
+        return;  
+      }
   
       const requestData = {
         from: address,

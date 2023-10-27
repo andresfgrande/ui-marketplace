@@ -5,11 +5,17 @@ import UserTransfers from "./UserTransfers";
 import RegisterTransaction from "./RegisterTransaction";
 import ApprovalTransaction from "./ApprovalTransaction";
 import RewardsTransaction from "./RewardsTransaction";
+import RedeemTransaction from "./RedeemTransaction";
 
 export default function TransactionsContent(){
 
     const { address, isConnected, isDisconnected } = useAccount(); 
     const { loyalID, loyaltyProgramAddress, getUserInfo } = useUserInfo(address);
+
+    useEffect(() => {
+      getUserInfo();
+    }, [address])
+    
 
     return (
         <main className="main-container">
@@ -46,6 +52,14 @@ export default function TransactionsContent(){
                 loyaltyProgramAddress={loyaltyProgramAddress}
                 getUserInfo={getUserInfo}
             ></UserTransfers>
+              <RedeemTransaction
+                address={address}
+                isConnected={isConnected}
+                isDisconnected={isDisconnected}
+                loyalID={loyalID}
+                loyaltyProgramAddress={loyaltyProgramAddress}
+                getUserInfo={getUserInfo}
+            ></RedeemTransaction>
         </main>
     )
 }

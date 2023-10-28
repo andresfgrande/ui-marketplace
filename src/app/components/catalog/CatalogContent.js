@@ -5,7 +5,7 @@ import { useUserInfo } from "../../hooks/useUserInfo"
 import { useAllowance } from "../../hooks/useAllowance"
 import { useAccount } from 'wagmi'; 
 
-export default function catalogContent(){
+export default function CatalogContent(){
 
     const { address, isDisconnected, isConnected } = useAccount(); 
     const { loyalID, loyaltyProgramAddress, getUserInfo } = useUserInfo(address);

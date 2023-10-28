@@ -1,13 +1,12 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import ProductsGrid from '../components/catalog/ProductsGrid';
+import CatalogContent from '../components/catalog/catalogContent';
 
 export default function Catalog() {
-    
     return (
         <Layout>
-            <ProductsGrid></ProductsGrid>
+            <CatalogContent></CatalogContent>
         </Layout>
     )
 }

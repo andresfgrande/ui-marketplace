@@ -1,23 +1,18 @@
 import React, { useEffect , useState} from "react";
 import LoyaltyProgram from "../../../Abi/loyalty-program.json";
 import { ethers } from 'ethers';
+import { formatDate } from "../../../utils/dateUtils.js";
 
 export default function RewardsTransaction({address, isConnected, isDisconnected, loyalID, loyaltyProgramAddress, getUserInfo}){
 
     const [rewardEvents, setRewardEvents] = useState([]);
-
-
-    function formatDate(timestamp) {
-        const date = new Date(timestamp * 1000);
-        return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-    }
 
     async function fetchRewardEvents() {
         if(address){
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(loyaltyProgramAddress, LoyaltyProgram.abi, provider);
     
-            const filter = contract.filters.RewardsSent(address, null); 
+            const filter = contract.filters.RewardsSent(null, address, null, null); 
             const logs = await contract.queryFilter(filter);
         
             const events = logs.map(log => ({
@@ -66,6 +61,7 @@ export default function RewardsTransaction({address, isConnected, isDisconnected
                                 <td><a href={`https://sepolia.etherscan.io/tx/${eventData.transactionHash}`} target="_blank">{`${eventData.transactionHash.slice(0,7)}...${eventData.transactionHash.slice(-7)}`}</a></td>
                                 <td>{`${eventData.event.args.to.slice(0,7)}...${eventData.event.args.to.slice(-7)}`}</td>
                                 <td>{ethers.formatEther(eventData.event.args.amount.toString())} OMW</td>
+                                <td>{formatDate(eventData.event.args.timestamp.toString())}</td>
                             </tr>
                         ))}
                      </tbody>

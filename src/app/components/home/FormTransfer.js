@@ -8,32 +8,16 @@ import { readContract} from '@wagmi/core';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 
-export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserInfo , data, isError, isLoading, error, refetch}){
+export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserInfo , data, isError, isLoading, error, refetch, isAllowanceSet, getAllowance, setAllowance}){
 
   const { address, isConnected } = useAccount(); 
 
-  const [isAllowanceSet, setIsAllowanceSet] = useState(null); 
   const [showBlur, setShowBlur] = useState(false); 
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
 
   const notifyRegister = () => toast("Register your Loyal ID!");
   const notifyConnect = () => toast("Connect your wallet!");
-
-  useEffect(() => {
-    async function checkAllowance() {
-      const allowance = await getAllowance();
-      if (allowance && allowance > 0) {
-        setIsAllowanceSet(true);
-      } else {
-        setIsAllowanceSet(false);
-      }
-    }
-
-    if (isConnected && address && loyaltyProgramAddress) {
-      checkAllowance();
-    }
-  }, [isConnected, address]);
 
   useEffect(() => {
     if (isConnected && isAllowanceSet === false) {
@@ -43,84 +27,68 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
     }
   }, [isConnected, isAllowanceSet]);
 
-  useEffect(() => {
-    if(address){
-      getUserInfo();
-    }
-  }, [address])
-
-
-  
-  
-  async function getAllowance() {
-    try {
-      const data = await readContract({
-        address: process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS, 
-        abi: OmniToken.abi,
-        functionName: 'allowance',
-        args: [address, loyaltyProgramAddress]
-
-      });
-      return data;
-    } catch (error) {
-      console.error("Error fetching allowance:", error);
-      return null;
-    }
-  }
-
   async function gaslessApproveTokens() {
 
     if(isConnected && loyalID){
 
       const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
+      const signer = await provider.getSigner();
 
-    console.log('on gasless approve tokens');
+      console.log('on gasless approve tokens');
    
-    const tokenAmountInWei = ethers.parseUnits('9999999999999999999', 18); 
-    console.log(tokenAmountInWei);
+      const tokenAmountInWei = ethers.parseUnits('9999999999999999999', 18); 
+      console.log(tokenAmountInWei);
 
-    const message = ethers.solidityPackedKeccak256(
-      ['address', 'address', 'uint256'],
-      [address, loyaltyProgramAddress, tokenAmountInWei] //Loyalty program coger dinamicamente by user
-    );
+      const message = ethers.solidityPackedKeccak256(
+        ['address', 'address', 'uint256'],
+        [address, loyaltyProgramAddress, tokenAmountInWei] 
+      );
 
-    const signedApproval = await signer.signMessage(ethers.getBytes(message));
+      //const signedApproval = await signer.signMessage(ethers.getBytes(message));
 
-    const requestData = {
-      owner: address,
-      spender: loyaltyProgramAddress,
-      value: tokenAmountInWei.toString(),
-      signature: signedApproval,
-      loyaltyProgramAddress: loyaltyProgramAddress,
-      commercePrefix: loyalID.slice(0,4)
-    };
+      let signedApproval ;
+      try {
+        signedApproval  = await signer.signMessage(ethers.getBytes(message));
+      } catch (error) {
+        toast.error('Signature rejected by user.');
+        return;  
+      }
 
-    const response = await toast.promise(
-        fetch('http://localhost:6475/approve', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        }),
-        {
-            pending: 'Processing transaction...',
-            success: 'Transaction confirmed!',
-            error: 'Failed! Try again'
-        }
-    );
+      const requestData = {
+        owner: address,
+        spender: loyaltyProgramAddress,
+        value: tokenAmountInWei.toString(),
+        signature: signedApproval,
+        loyaltyProgramAddress: loyaltyProgramAddress,
+        commercePrefix: loyalID.slice(0,4)
+      };
 
-    const data = await response.json();
+      const response = await toast.promise(
+          fetch('http://localhost:6475/approve', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(requestData)
+          }),
+          {
+              pending: 'Processing transaction...',
+              success: 'Transaction confirmed!',
+              error: 'Failed! Try again'
+          }
+      );
 
-    if (data && data.success) {
-        console.log(`Approval transaction hash: ${data.txHash}`);
-        setIsAllowanceSet(true);
-        return data.txHash;
-    } else {
-        console.error(data.message);
-        throw new Error(data.message);
-    }
+      const data = await response.json();
+
+      if (data && data.success) {
+          console.log(`Approval transaction hash: ${data.txHash}`);
+  
+          setAllowance(true);
+          return data.txHash;
+      } else {
+          console.error(data.message);
+          throw new Error(data.message);
+      }
 
     }else{
       notifyRegister();
@@ -146,7 +114,13 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         [address, toAddress, tokenAmountInWei]
       );
   
-      const signedTransfer = await signer.signMessage(ethers.getBytes(message));
+      let signedTransfer ;
+      try {
+        signedTransfer  = await signer.signMessage(ethers.getBytes(message));
+      } catch (error) {
+        toast.error('Signature rejected by user.');
+        return;  
+      }
   
       const requestData = {
         from: address,
@@ -218,7 +192,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         <button className="submit-transfer-form" type="button" onClick={() => gaslessTransferTokens()} >Send</button>
         {showBlur && (
         <div className="blur-overlay">
-          <button type="button" onClick={()=>gaslessApproveTokens()}>Activate token transfers</button>
+          <button type="button" onClick={()=>gaslessApproveTokens()}>Allow token transfers</button>
         </div>
       )}
       </form>

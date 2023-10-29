@@ -28,77 +28,97 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
   }, [isConnected, isAllowanceSet]);
 
   async function gaslessApproveTokens() {
-
     if(isConnected && loyalID){
 
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const signer = await provider.getSigner();
 
-      console.log('on gasless approve tokens');
-   
-      const tokenAmountInWei = ethers.parseUnits('9999999999999999999', 18); 
-      console.log(tokenAmountInWei);
+          console.log('on gasless approve tokens');
 
-      const message = ethers.solidityPackedKeccak256(
-        ['address', 'address', 'uint256'],
-        [address, loyaltyProgramAddress, tokenAmountInWei] 
-      );
+          const tokenAmountInWei = ethers.parseUnits('999999999999999999999', 18); 
+          console.log(tokenAmountInWei);
 
-      //const signedApproval = await signer.signMessage(ethers.getBytes(message));
+          const domain = {
+              name: "OmniWallet3",
+              version: "1",
+              chainId: 11155111,
+              verifyingContract: loyaltyProgramAddress  
+          };
 
-      let signedApproval ;
-      try {
-        signedApproval  = await signer.signMessage(ethers.getBytes(message));
-      } catch (error) {
-        toast.error('Signature rejected by user.');
-        return;  
-      }
+          const types = {
+              Approval: [
+                  { name: "owner", type: "address" },
+                  { name: "spender", type: "address" },
+                  { name: "value", type: "uint256" },
+              ]
+          };
 
-      const requestData = {
-        owner: address,
-        spender: loyaltyProgramAddress,
-        value: tokenAmountInWei.toString(),
-        signature: signedApproval,
-        loyaltyProgramAddress: loyaltyProgramAddress,
-        commercePrefix: loyalID.slice(0,4)
-      };
+          const typedData = {
+              types,
+              domain,
+              primaryType: "Approval",
+              message: {
+                  owner: address,
+                  spender: loyaltyProgramAddress,
+                  value: tokenAmountInWei.toString(),
+              }
+          };
 
-      const response = await toast.promise(
-          fetch('http://localhost:6475/approve', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(requestData)
-          }),
-          {
-              pending: 'Processing transaction...',
-              success: 'Transaction confirmed!',
-              error: 'Failed! Try again'
+          let signedApproval;
+          try {
+              signedApproval = await signer.signTypedData(domain, types, typedData.message);
+          } catch (error) {
+            console.log(error);
+              toast.error('Signature rejected by user.');
+              return;  
           }
-      );
 
-      const data = await response.json();
+          const requestData = {
+              owner: address,
+              spender: loyaltyProgramAddress,
+              value: tokenAmountInWei.toString(),
+              signature: signedApproval,
+              loyaltyProgramAddress: loyaltyProgramAddress,
+              commercePrefix: loyalID.slice(0,4)
+          };
 
-      if (data && data.success) {
-          console.log(`Approval transaction hash: ${data.txHash}`);
-  
-          setAllowance(true);
-          return data.txHash;
+          const response = await toast.promise(
+              fetch('http://localhost:6475/approve_typed', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(requestData)
+              }),
+              {
+                  pending: 'Processing transaction...',
+                  success: 'Transaction confirmed!',
+                  error: 'Failed! Try again'
+              }
+          );
+
+          const data = await response.json();
+
+          if (data && data.success) {
+              console.log(`Approval transaction hash: ${data.txHash}`);
+
+              setAllowance(true);
+              return data.txHash;
+          } else {
+              console.error(data.message);
+              throw new Error(data.message);
+          }
+
       } else {
-          console.error(data.message);
-          throw new Error(data.message);
+          notifyRegister();
+          window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+          });
       }
-
-    }else{
-      notifyRegister();
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
   }
 
+  
   async function gaslessTransferTokens() {
     if (isConnected) {
       console.log('on gasless transfer tokens');

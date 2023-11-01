@@ -266,6 +266,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
                                 <div className="product-content"> 
                                     <img src={product.image} alt={product.name} />
                                     <h3 className='product-name'>{product.name}</h3>
+                                    <span className="product-sku">SKU: {product.sku}</span>
                                     <p className='product-price'>{product.price} OMW</p>
                                 </div>
                                 <button onClick={()=>redeemProductV2(product.commerceAddress, product.price)}>Redeem</button>

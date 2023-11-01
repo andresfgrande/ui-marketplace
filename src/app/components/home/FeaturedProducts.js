@@ -18,6 +18,13 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
 
     const featuredProducts = productsData.filter(product => product.isFeatured).slice(0,10);
 
+    const domain = {
+      name: "OmniWallet3",
+      version: "1",
+      chainId: 11155111,
+      verifyingContract: loyaltyProgramAddress  
+    };
+
     async function redeemProduct(productCommerceAddress,tokenAmount){
 
       if(isConnected){
@@ -103,6 +110,105 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
 
     }
 
+    async function redeemProductV2(productCommerceAddress,tokenAmount){
+
+      if(isConnected){
+
+        if(loyalID){
+          if(isAllowanceSet){
+
+
+            console.log('on gasless redeem product');
+  
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+
+            const types = {
+                Redeem: [
+                    { name: "from", type: "address" },
+                    { name: "toProductOwner", type: "address" },
+                    { name: "toUserOwner", type: "address" },
+                    { name: "amount", type: "uint256" },
+                ]
+            };
+
+            const typedData = {
+                types,
+                domain,
+                primaryType: "Redeem",
+                message: {
+                    from: address,
+                    toProductOwner: productCommerceAddress,
+                    toUserOwner: loyaltyProgramAddress,
+                    amount: tokenAmount.toString(),
+                }
+            };
+        
+            let signedRedeem;
+            try {
+              signedRedeem = await signer.signTypedData(domain,types,typedData.message);
+            } catch (error) {
+              toast.error('Signature rejected by user.');
+              return;  
+            }
+        
+            const requestData = {
+              from: address,
+              toProductCommerceAddress: productCommerceAddress,
+              toUserCommerceAddress: loyaltyProgramAddress,
+              amount: tokenAmount.toString(),
+              signature: signedRedeem,
+              loyaltyProgramAddress: loyaltyProgramAddress,
+              commercePrefix: loyalID.slice(0,4)
+            }
+        
+            const response = await toast.promise(
+              fetch('http://localhost:6475/redeem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+              }).then(res => {
+                if (!res.ok) {
+                  return res.json().then(data => {
+                    throw new Error(data.message || 'Failed! Try again');
+                  });
+                }
+                return res;
+              }),
+              {
+                pending: 'Processing transaction...',
+                success: 'Transaction confirmed!',
+                error: 'Failed! Try again.'
+              }
+            );
+        
+            const data = await response.json();
+            if (data && data.success) {
+                console.log(`Transaction hash: ${data.txHash}`);
+                refetch();
+            } else {
+                console.error(data.message);
+            }
+
+          }else{
+            notifyActivateTransfer();
+          }
+        }else{
+          notifyRegister();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+
+      }else{
+        notifyConnect();
+      }
+
+    }
+
     return(
         <section className="products">
           <h2>Featured Products</h2>
@@ -112,7 +218,7 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
                 <img src={product.image} alt={product.name} />
                 <h3 className="product-name">{product.name}</h3>
                 <p className='product-price'>{product.price} OMW</p>
-                <button onClick={()=>redeemProduct(product.commerceAddress, product.price)}>Redeem</button>
+                <button onClick={()=>redeemProductV2(product.commerceAddress, product.price)}>Redeem</button>
               </div>
             ))}
           </div>

@@ -19,6 +19,13 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
   const notifyRegister = () => toast("Register your Loyal ID!");
   const notifyConnect = () => toast("Connect your wallet!");
 
+  const domain = {
+    name: "OmniWallet3",
+    version: "1",
+    chainId: 11155111,
+    verifyingContract: loyaltyProgramAddress  
+  };
+
   useEffect(() => {
     if (isConnected && isAllowanceSet === false) {
       setShowBlur(true);
@@ -35,15 +42,8 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
 
           console.log('on gasless approve tokens');
 
-          const tokenAmountInWei = ethers.parseUnits('999999999999999999999', 18); 
+          const tokenAmountInWei = ethers.parseUnits('100000000000000000000', 18); 
           console.log(tokenAmountInWei);
-
-          const domain = {
-              name: "OmniWallet3",
-              version: "1",
-              chainId: 11155111,
-              verifyingContract: loyaltyProgramAddress  
-          };
 
           const types = {
               Approval: [
@@ -83,7 +83,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
           };
 
           const response = await toast.promise(
-              fetch('http://localhost:6475/approve_typed', {
+              fetch('http://localhost:6475/approve', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json'
@@ -117,7 +117,6 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
           });
       }
   }
-
   
   async function gaslessTransferTokens() {
     if (isConnected) {
@@ -126,17 +125,30 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
   
-      const tokenAmountInWei = ethers.parseUnits(tokenAmount.toString(), 18);
       const toAddress = recipientAddress;
-  
-      const message = ethers.solidityPackedKeccak256(
-        ['address', 'address', 'uint256'],
-        [address, toAddress, tokenAmountInWei]
-      );
+
+      const types = {
+          Transfer: [
+              { name: "from", type: "address" },
+              { name: "to", type: "address" },
+              { name: "amount", type: "uint256" },
+          ]
+      };
+
+      const typedData = {
+          types,
+          domain,
+          primaryType: "Transfer",
+          message: {
+              from: address,
+              to: toAddress,
+              amount: tokenAmount.toString(),
+          }
+      };
   
       let signedTransfer ;
       try {
-        signedTransfer  = await signer.signMessage(ethers.getBytes(message));
+        signedTransfer  = await signer.signTypedData(domain,types,typedData.message);
       } catch (error) {
         toast.error('Signature rejected by user.');
         return;  
@@ -145,7 +157,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       const requestData = {
         from: address,
         to: toAddress,
-        amount: tokenAmountInWei.toString(),
+        amount: tokenAmount.toString(),
         signature: signedTransfer,
         loyaltyProgramAddress: loyaltyProgramAddress,
         commercePrefix: loyalID.slice(0,4)
@@ -188,7 +200,6 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
     }
   }
   
-
   return(
     <div className="transfer-form">
       <h2 className='title-transfer'>Transfer Tokens</h2>

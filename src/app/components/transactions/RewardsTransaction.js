@@ -46,7 +46,7 @@ export default function RewardsTransaction({address, isConnected, isDisconnected
         <>
         <h2 className="transactions-subtitle">Rewards</h2>
         <div className="transaction-section">
-              <table className="transaction-table">
+              <table className="transaction-table transaction-table-4">
                      <thead>
                          <tr>
                              <th>Tx Hash</th>

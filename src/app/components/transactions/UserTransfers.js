@@ -69,7 +69,7 @@ export default function UserTransfers({address, isConnected, isDisconnected, loy
         <>
         <h2 className="transactions-subtitle">Sent transfers</h2>
             <div className="transaction-section">
-                <table className="transaction-table">
+                <table className="transaction-table transaction-table-5">
                     <thead>
                         <tr>
                             <th>Tx Hash</th>
@@ -95,7 +95,7 @@ export default function UserTransfers({address, isConnected, isDisconnected, loy
     
             <h2 className="transactions-subtitle">Received transfers</h2>
             <div className="transaction-section">
-                <table className="transaction-table">
+                <table className="transaction-table transaction-table-5">
                     <thead>
                         <tr>
                             <th>Tx Hash</th>

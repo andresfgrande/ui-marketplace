@@ -18,39 +18,63 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
 
     const featuredProducts = productsData.filter(product => product.isFeatured).slice(0,10);
 
-    async function redeemProduct(productCommerceAddress,tokenAmount){
+    const domain = {
+      name: "OmniWallet3",
+      version: "1",
+      chainId: 11155111,
+      verifyingContract: loyaltyProgramAddress  
+    };
+
+    async function redeemProduct(productSku, productCommerceAddress,tokenAmount){
 
       if(isConnected){
 
         if(loyalID){
           if(isAllowanceSet){
 
-      
+
             console.log('on gasless redeem product');
   
             const provider = new ethers.BrowserProvider(window.ethereum);
             const signer = await provider.getSigner();
-        
-            const tokenAmountInWei = ethers.parseUnits(tokenAmount.toString(), 18);
-      
-            const message = ethers.solidityPackedKeccak256(
-              ['address', 'address', 'address','uint256'],
-              [address, productCommerceAddress, loyaltyProgramAddress ,tokenAmountInWei]
-            );
+
+            const types = {
+                Redeem: [
+                    { name: "productSku", type: "string"},
+                    { name: "from", type: "address" },
+                    { name: "toProductCommerce", type: "address" },
+                    { name: "toUserCommerce", type: "address" },
+                    { name: "amount", type: "uint256" },
+                ]
+            };
+
+            const typedData = {
+                types,
+                domain,
+                primaryType: "Redeem",
+                message: {
+                    productSku: productSku, 
+                    from: address,
+                    toProductCommerce: productCommerceAddress,
+                    toUserCommerce: loyaltyProgramAddress,
+                    amount: tokenAmount.toString(),
+                }
+            };
         
             let signedRedeem;
             try {
-              signedRedeem = await signer.signMessage(ethers.getBytes(message));
+              signedRedeem = await signer.signTypedData(domain,types,typedData.message);
             } catch (error) {
               toast.error('Signature rejected by user.');
               return;  
             }
         
             const requestData = {
+              productSku: productSku,
               from: address,
               toProductCommerceAddress: productCommerceAddress,
               toUserCommerceAddress: loyaltyProgramAddress,
-              amount: tokenAmountInWei.toString(),
+              amount: tokenAmount.toString(),
               signature: signedRedeem,
               loyaltyProgramAddress: loyaltyProgramAddress,
               commercePrefix: loyalID.slice(0,4)
@@ -111,8 +135,9 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
               <div key={product.id} className="product">
                 <img src={product.image} alt={product.name} />
                 <h3 className="product-name">{product.name}</h3>
+                <span className="product-sku">SKU: {product.sku}</span>
                 <p className='product-price'>{product.price} OMW</p>
-                <button onClick={()=>redeemProduct(product.commerceAddress, product.price)}>Redeem</button>
+                <button onClick={()=>redeemProduct(product.sku, product.commerceAddress, product.price)}>Redeem</button>
               </div>
             ))}
           </div>

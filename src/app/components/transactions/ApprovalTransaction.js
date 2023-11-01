@@ -46,7 +46,7 @@ export default function ApprovalTransaction({address, isConnected, isDisconnecte
         <>
         <h2 className="transactions-subtitle">Token approval</h2>
         <div className="transaction-section">
-              <table className="transaction-table">
+              <table className="transaction-table transaction-table-5">
                      <thead>
                          <tr>
                              <th>Tx Hash</th>

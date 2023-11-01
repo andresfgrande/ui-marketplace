@@ -54,6 +54,19 @@ h3{
     margin-bottom: 0.5em;
 }
 
+.product-name{
+    margin-bottom: 0.25em;
+}
+.product-sku{
+    margin-bottom: 0.5em;
+    font-size: 0.9rem;
+}
+
+.product-price{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
 .product button {
     background-color: #EEEBD3;
     color: #232931;

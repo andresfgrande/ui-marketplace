@@ -26,8 +26,20 @@
 .transaction-table a{
     color: #b1b1b1;
 }
-.transaction-table th, .transaction-table td {
+.transaction-table-5 th, .transaction-table td {
     width: 20%; 
+    padding: 0.5rem 0.75rem;
+    text-align: left; 
+    border-bottom: 1px solid #3a3b3c; 
+}
+.transaction-table-4 th, .transaction-table td {
+    width: 25%; 
+    padding: 0.5rem 0.75rem;
+    text-align: left; 
+    border-bottom: 1px solid #3a3b3c; 
+}
+.transaction-table-7 th, .transaction-table td {
+    width: 14.28%; 
     padding: 0.5rem 0.75rem;
     text-align: left; 
     border-bottom: 1px solid #3a3b3c; 

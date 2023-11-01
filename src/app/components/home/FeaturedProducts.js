@@ -42,8 +42,8 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
                 Redeem: [
                     { name: "productSku", type: "string"},
                     { name: "from", type: "address" },
-                    { name: "toProductOwner", type: "address" },
-                    { name: "toUserOwner", type: "address" },
+                    { name: "toProductCommerce", type: "address" },
+                    { name: "toUserCommerce", type: "address" },
                     { name: "amount", type: "uint256" },
                 ]
             };
@@ -55,8 +55,8 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
                 message: {
                     productSku: productSku, 
                     from: address,
-                    toProductOwner: productCommerceAddress,
-                    toUserOwner: loyaltyProgramAddress,
+                    toProductCommerce: productCommerceAddress,
+                    toUserCommerce: loyaltyProgramAddress,
                     amount: tokenAmount.toString(),
                 }
             };

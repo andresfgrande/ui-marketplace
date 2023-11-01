@@ -12,7 +12,7 @@ export default function RedeemTransaction({address, isConnected, isDisconnected,
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contract = new ethers.Contract(loyaltyProgramAddress, LoyaltyProgram.abi, provider);
     
-            const filter = contract.filters.RedeemProduct(address, null, null, null, null); 
+            const filter = contract.filters.RedeemProduct(null,address, null, null, null, null); 
             const logs = await contract.queryFilter(filter);
         
             const events = logs.map(log => ({
@@ -51,14 +51,15 @@ export default function RedeemTransaction({address, isConnected, isDisconnected,
         <>
         <h2 className="transactions-subtitle">Redeem product</h2>
             <div className="transaction-section">
-                <table className="transaction-table">
+                <table className="transaction-table transaction-table-7">
                     <thead>
                         <tr>
                             <th>Tx Hash</th>
+                            <th>SKU</th>
                             <th>From</th>
                             <th>To Product Owner 80%</th>
                             <th>To User Commerce 20%</th>
-                            <th>Total Amount</th>
+                            <th>Amount</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -66,9 +67,10 @@ export default function RedeemTransaction({address, isConnected, isDisconnected,
                         {redeemEvents.map((eventData, index) => (
                             <tr key={index}>
                                 <td><a href={`https://sepolia.etherscan.io/tx/${eventData.transactionHash}`} target="_blank">{`${eventData.transactionHash.slice(0,7)}...${eventData.transactionHash.slice(-7)}`}</a></td>
+                                <td>{eventData.event.args.productSku}</td>
                                 <td>{`${eventData.event.args.from.slice(0,7)}...${eventData.event.args.from.slice(-7)}`}</td>
-                                <td>{`${eventData.event.args._toProductOwner.slice(0,7)}...${eventData.event.args._toProductOwner.slice(-7)}`}</td>
-                                <td>{`${eventData.event.args._toUserOwner.slice(0,7)}...${eventData.event.args._toUserOwner.slice(-7)}`}</td>
+                                <td>{`${eventData.event.args.toProductCommerce.slice(0,7)}...${eventData.event.args.toProductCommerce.slice(-7)}`}</td>
+                                <td>{`${eventData.event.args.toUserCommerce.slice(0,7)}...${eventData.event.args.toUserCommerce.slice(-7)}`}</td>
                                 <td>{ethers.formatEther(eventData.event.args.amount.toString())} OMW</td>
                                 <td>{formatDate(eventData.event.args.timestamp.toString())} </td>
                             </tr>

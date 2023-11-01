@@ -124,7 +124,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
   
       }
 
-      async function redeemProductV2(productCommerceAddress,tokenAmount){
+      async function redeemProductV2(productSku, productCommerceAddress,tokenAmount){
 
         if(isConnected){
   
@@ -139,10 +139,11 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
   
               const types = {
                   Redeem: [
-                      { name: "from", type: "address" },
-                      { name: "toProductOwner", type: "address" },
-                      { name: "toUserOwner", type: "address" },
-                      { name: "amount", type: "uint256" },
+                    { name: "productSku", type: "string"},
+                    { name: "from", type: "address" },
+                    { name: "toProductCommerce", type: "address" },
+                    { name: "toUserCommerce", type: "address" },
+                    { name: "amount", type: "uint256" },
                   ]
               };
   
@@ -151,9 +152,10 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
                   domain,
                   primaryType: "Redeem",
                   message: {
+                      productSku: productSku, 
                       from: address,
-                      toProductOwner: productCommerceAddress,
-                      toUserOwner: loyaltyProgramAddress,
+                      toProductCommerce: productCommerceAddress,
+                      toUserCommerce: loyaltyProgramAddress,
                       amount: tokenAmount.toString(),
                   }
               };
@@ -167,6 +169,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
               }
           
               const requestData = {
+                productSku: productSku,
                 from: address,
                 toProductCommerceAddress: productCommerceAddress,
                 toUserCommerceAddress: loyaltyProgramAddress,
@@ -269,7 +272,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
                                     <span className="product-sku">SKU: {product.sku}</span>
                                     <p className='product-price'>{product.price} OMW</p>
                                 </div>
-                                <button onClick={()=>redeemProductV2(product.commerceAddress, product.price)}>Redeem</button>
+                                <button onClick={()=>redeemProductV2(product.sku, product.commerceAddress, product.price)}>Redeem</button>
                             </div>
                         ))}
                         </div>

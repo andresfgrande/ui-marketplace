@@ -40,91 +40,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
     const uniqueCategories = Array.from(new Set(productsData.map(product => product.category)));
     const uniqueCommerces = Array.from(new Set(productsData.map(product => product.commerceName))); 
 
-    async function redeemProduct(productCommerceAddress,tokenAmount){
-
-        if(isConnected){
-  
-          if(loyalID){
-            if(isAllowanceSet){
-  
-        
-              console.log('on gasless redeem product');
-    
-              const provider = new ethers.BrowserProvider(window.ethereum);
-              const signer = await provider.getSigner();
-          
-              const tokenAmountInWei = ethers.parseUnits(tokenAmount.toString(), 18);
-        
-              const message = ethers.solidityPackedKeccak256(
-                ['address', 'address', 'address','uint256'],
-                [address, productCommerceAddress, loyaltyProgramAddress ,tokenAmountInWei]
-              );
-          
-              let signedRedeem;
-              try {
-                signedRedeem = await signer.signMessage(ethers.getBytes(message));
-              } catch (error) {
-                toast.error('Signature rejected by user.');
-                return;  
-              }
-          
-              const requestData = {
-                from: address,
-                toProductCommerceAddress: productCommerceAddress,
-                toUserCommerceAddress: loyaltyProgramAddress,
-                amount: tokenAmountInWei.toString(),
-                signature: signedRedeem,
-                loyaltyProgramAddress: loyaltyProgramAddress,
-                commercePrefix: loyalID.slice(0,4)
-              }
-          
-              const response = await toast.promise(
-                fetch('http://localhost:6475/redeem', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(requestData)
-                }).then(res => {
-                  if (!res.ok) {
-                    return res.json().then(data => {
-                      throw new Error(data.message || 'Failed! Try again');
-                    });
-                  }
-                  return res;
-                }),
-                {
-                  pending: 'Processing transaction...',
-                  success: 'Transaction confirmed!',
-                  error: 'Failed! Try again.'
-                }
-              );
-          
-              const data = await response.json();
-              if (data && data.success) {
-                  console.log(`Transaction hash: ${data.txHash}`);
-              } else {
-                  console.error(data.message);
-              }
-  
-            }else{
-              notifyActivateTransfer();
-            }
-          }else{
-            notifyRegister();
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth"
-            });
-          }
-  
-        }else{
-          notifyConnect();
-        }
-  
-      }
-
-      async function redeemProductV2(productSku, productCommerceAddress,tokenAmount){
+      async function redeemProduct(productSku, productCommerceAddress,tokenAmount){
 
         if(isConnected){
   
@@ -272,7 +188,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
                                     <span className="product-sku">SKU: {product.sku}</span>
                                     <p className='product-price'>{product.price} OMW</p>
                                 </div>
-                                <button onClick={()=>redeemProductV2(product.sku, product.commerceAddress, product.price)}>Redeem</button>
+                                <button onClick={()=>redeemProduct(product.sku, product.commerceAddress, product.price)}>Redeem</button>
                             </div>
                         ))}
                         </div>

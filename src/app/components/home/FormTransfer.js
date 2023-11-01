@@ -15,9 +15,21 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
   const [showBlur, setShowBlur] = useState(false); 
   const [recipientAddress, setRecipientAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const notifyRegister = () => toast("Register your Loyal ID!");
   const notifyConnect = () => toast("Connect your wallet!");
+
+  const isSendDisabled = () => {
+    return (
+      !recipientAddress || 
+      !tokenAmount || 
+      recipientAddress === address ||
+      recipientAddress.length !== 42 ||  
+      isNaN(tokenAmount) ||               
+      Number(tokenAmount) <= 0            
+    );
+  };
 
   const domain = {
     name: "OmniWallet3",
@@ -33,6 +45,18 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       setShowBlur(false);
     }
   }, [isConnected, isAllowanceSet]);
+
+  useEffect(() => {
+    const disableButton = (
+      !recipientAddress || 
+      !tokenAmount || 
+      recipientAddress === address ||
+      recipientAddress.length !== 42 ||  
+      isNaN(tokenAmount) ||               
+      Number(tokenAmount) <= 0            
+    );
+    setIsButtonDisabled(disableButton);  
+  }, [recipientAddress, tokenAmount, address]); 
 
   async function gaslessApproveTokens() {
     if(isConnected && loyalID){
@@ -150,7 +174,8 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       try {
         signedTransfer  = await signer.signTypedData(domain,types,typedData.message);
       } catch (error) {
-        toast.error('Signature rejected by user.');
+        toast.error('Transaction failed, try again');
+        console.log(error);
         return;  
       }
   
@@ -220,7 +245,8 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
         value={tokenAmount}
         onChange={e => setTokenAmount(e.target.value)}
         required />
-        <button className="submit-transfer-form" type="button" onClick={() => gaslessTransferTokens()} >Send</button>
+        <button className={`submit-transfer-form ${isButtonDisabled ? 'disabled-button' : ''}`} 
+        type="button" onClick={() => gaslessTransferTokens()}  disabled={isButtonDisabled} >Send</button>
         {showBlur && (
         <div className="blur-overlay">
           <button type="button" onClick={()=>gaslessApproveTokens()}>Allow token transfers</button>

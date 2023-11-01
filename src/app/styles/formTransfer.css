@@ -22,7 +22,7 @@
 }
 
 .transfer-form input::placeholder {
-    color: #888;                /* Set a lighter color for placeholder text */
+    color: #888;              
 }
 
 .transfer-form button {
@@ -35,6 +35,11 @@
     transition: background-color 0.3s;
     font-family: Poppins;
 }
+
+.disabled-button {
+    background-color: #eeebd36e!important;
+
+  }
 
 .transfer-form button:hover {
     background-color: #dcd8c0;

@@ -25,7 +25,6 @@ function Profile() {
             setTimeout(() => setIsCopied(false), 2000); 
         });
     } else {
-        // Fallback for older browsers
         const textarea = document.createElement("textarea");
         textarea.textContent = address;
         textarea.style.position = "absolute";
@@ -45,9 +44,8 @@ function Profile() {
     <div className='header-connect-item'>
       <div className="address-wrapper">
           <span className="address">{truncateAddress(address)}</span>
-          <span className="copy-icon" onClick={handleCopyClick}>
-              📋
-          </span>
+              <img className='copy-address-profile' src="/copy.png" onClick={handleCopyClick}></img>
+          
           {isCopied && <span>Copied!</span>}
       </div>
     </div>

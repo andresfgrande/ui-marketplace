@@ -49,6 +49,8 @@
     letter-spacing: 0.15px;
     font-family: Poppins;
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width: 640px) {
@@ -59,6 +61,14 @@
     .header-content .button{
         font-size: 12.5px;
         padding: 8.5px 20px;
+    }
+    .copy-address-profile{
+        height: 18px;
+    }
+}
+@media (min-width: 640px) {
+    .copy-address-profile{
+        height: 28px;
     }
 }
 

@@ -131,3 +131,14 @@
         height: 40px;
     }
 }
+
+.token-info{
+    display: flex;
+    align-items: center;
+    margin-top: 0.75em;
+}
+
+.token-copy{
+    cursor: pointer;
+    max-height: 28px;
+}

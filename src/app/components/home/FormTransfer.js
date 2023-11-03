@@ -20,17 +20,6 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
   const notifyRegister = () => toast("Register your Loyal ID!");
   const notifyConnect = () => toast("Connect your wallet!");
 
-  const isSendDisabled = () => {
-    return (
-      !recipientAddress || 
-      !tokenAmount || 
-      recipientAddress === address ||
-      recipientAddress.length !== 42 ||  
-      isNaN(tokenAmount) ||               
-      Number(tokenAmount) <= 0            
-    );
-  };
-
   const domain = {
     name: "OmniWallet3",
     version: "1",

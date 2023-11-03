@@ -53,6 +53,13 @@
    
 }
 
+@media (max-width: 500px) {
+    .logo{
+        font-size: 21px;
+        margin-left: -0.5em;
+    }
+}
+
 
 .sidebar.open {
     left: 0;

@@ -23,57 +23,6 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
     e.preventDefault();
 
     if(isConnected){
-      console.log('on submit register address!');
-
-      let prefix = inputValue.slice(0,4);
-      const requestData = {
-        address: address,
-        loyaltyId: inputValue,
-        commercePrefix: prefix
-      }
-     
-      const response = await toast.promise(
-        fetch('http://localhost:6475/register', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestData)
-        }).then(res => {
-          if (!res.ok) {
-            return res.json().then(data => {
-              throw new Error(data.message || 'Failed! Try again');
-            });
-          }
-          return res;
-        }),
-        {
-          pending: 'Processing registration...',
-          success: 'Registration confirmed!',
-          error: 'Failed! Try again.'
-        }
-      );
-
-      const data = await response.json();
-      if (data && data.success) {
-          console.log(`Transaction hash: ${data.txHashRegister}`);
-          getUserInfo();
-          setInputValue('');
-      } else {
-          console.error(data.message);
-      }
-
-    }else{
-      console.log('connect wallet');
-    }
-   
-    console.log("Submitted:", inputValue);
-  };
-
-  async function registerUserV2 (e)  {
-    e.preventDefault();
-
-    if(isConnected){
       console.log(address);
       console.log('on submit register address!');
 
@@ -154,6 +103,16 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
     console.log("Submitted:", inputValue);
   };
 
+  const copyTokenToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS);
+      toast.success('Copied!');
+    } catch (error) {
+      toast.error('Failed to copy');
+    }
+  };
+  
+
 
   useEffect(() => {
     if (address) {
@@ -175,6 +134,16 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
         {isDisconnected && <span className="amount">0 OMW</span>}
         {isConnected && <span className="amount">{data?.formatted} {data?.symbol}</span>}
         {(!isLoading && !isError && !isDisconnected && !isConnected) && <span className="amount">0 OMW</span>}
+        <div className='token-info'>
+          <p className='token-address'>{process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS.slice(0,10)}...{process.env.NEXT_PUBLIC_OMNI_TOKEN_ADDRESS.slice(-10)}</p>
+          <img
+              className='token-copy'
+              src="/copy.png"
+              alt="Copy token address"
+              onClick={copyTokenToClipboard}
+            />
+        </div>
+       
       </div>
       <div className='balance-info user-info'>
         <h2>Loyal ID</h2>
@@ -183,7 +152,7 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
         ) : isConnected ? (
             <div>
                 <p>{"You're not registered yet!"}</p>
-                <form className='register-form' onSubmit={registerUserV2}>
+                <form className='register-form' onSubmit={registerUser}>
                     <input
                         type="text"
                         value={inputValue}

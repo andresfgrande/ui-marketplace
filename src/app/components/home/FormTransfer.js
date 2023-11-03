@@ -96,7 +96,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
           };
 
           const response = await toast.promise(
-              fetch('http://localhost:6475/approve', {
+              fetch('https://transaction-relayer.vercel.app/approve', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json'
@@ -178,7 +178,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       }
   
       const response = await toast.promise(
-        fetch('http://localhost:6475/transfer', {
+        fetch('https://transaction-relayer.vercel.app/transfer', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

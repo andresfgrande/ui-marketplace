@@ -111,9 +111,16 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
       toast.error('Failed to copy');
     }
   };
+
+  const copyLoyaltyIdToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(loyalID);
+      toast.success('Copied!');
+    } catch (error) {
+      toast.error('Failed to copy');
+    }
+  };
   
-
-
   useEffect(() => {
     if (address) {
         getUserInfo();
@@ -146,9 +153,18 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
        
       </div>
       <div className='balance-info user-info'>
-        <h2>Loyal ID</h2>
+        <h2>Loyalty ID</h2>
         {loyalID ? (
-            <p className="loyalid-text">{loyalID}</p>
+            <div className='loyalty-info'>
+                 <p className="loyalid-text">{loyalID}</p>
+                 <img
+                    className='token-copy'
+                    src="/copy.png"
+                    alt="Copy token address"
+                    onClick={copyLoyaltyIdToClipboard}
+                  />
+            </div>
+         
         ) : isConnected ? (
             <div>
                 <p>{"You're not registered yet!"}</p>

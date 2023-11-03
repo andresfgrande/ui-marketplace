@@ -141,4 +141,10 @@
 .token-copy{
     cursor: pointer;
     max-height: 28px;
+    margin-left: 0.35em;
+}
+
+.loyalty-info{
+    display: flex;
+    align-items: center;
 }

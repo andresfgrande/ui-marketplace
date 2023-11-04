@@ -66,7 +66,7 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
       }
      
       const response = await toast.promise(
-        fetch('https://transaction-relayer.vercel.app/register', {
+        fetch('http://localhost:6475/register', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

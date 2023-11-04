@@ -81,7 +81,7 @@ export default function FeaturedProducts ({ loyalID, loyaltyProgramAddress, getU
             }
         
             const response = await toast.promise(
-              fetch('https://transaction-relayer.vercel.app/redeem', {
+              fetch('http://localhost:6475/redeem', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

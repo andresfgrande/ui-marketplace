@@ -66,7 +66,7 @@ const Balance = ({ loyalID, loyaltyProgramAddress, getUserInfo, data, isError, i
       }
      
       const response = await toast.promise(
-        fetch('http://localhost:6475/register', {
+        fetch('/register', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

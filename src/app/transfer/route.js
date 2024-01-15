@@ -1,4 +1,3 @@
-
 import {utils, ethers, formatEther } from 'ethers';
 import LoyaltyProgramFactory from '../../Abi/loyalty-program-factory.json';
 import LoyaltyProgramAbi from '../../Abi/loyalty-program.json';
@@ -11,8 +10,7 @@ const walletAdmin = new ethers.Wallet(privateKeyAdmin, provider);
 const contractLoyaltyProgramFactory = new ethers.Contract(process.env.LOYALTY_PROGRAM_FACTORY_ADDRESS, LoyaltyProgramFactory.abi, walletAdmin);
 
 export async function POST(request, { params }) {
-   console.log(request);
-   console.log(params);
+
     try {
        
         const params = await request.json()

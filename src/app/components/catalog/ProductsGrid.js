@@ -96,7 +96,7 @@ export default function ProductsGrid({ loyalID, loyaltyProgramAddress, getUserIn
               }
           
               const response = await toast.promise(
-                fetch('http://localhost:6475/redeem', {
+                fetch('/redeem', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json'

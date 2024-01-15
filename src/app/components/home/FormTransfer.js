@@ -178,7 +178,7 @@ export default function FormTransfer({ loyalID, loyaltyProgramAddress, getUserIn
       }
   
       const response = await toast.promise(
-        fetch('http://localhost:6475/transfer', {
+        fetch('/transfer', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
